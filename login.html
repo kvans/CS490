@@ -1,0 +1,27 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script> 
+<title>Login Screen</title> 
+</head> 
+<body> 
+<form name="login" id="login-form" action="https://web.njit.edu/~bh72/middleware.php" method="post" accept-charset="utf-8"> 
+        <label for="username">Username: </label> 
+        <input type="username" id="username" name="username" placeholder="username" required><br> 
+        <label for="password">Password: </label> 
+        <input type="password" id="password" name="password" placeholder="password" required><br> 
+        <button type="submit">Login</button> 
+</form> 
+<script type='text/javascript'> 
+$("#login-form").submit(function(event) { 
+        event.preventDefault(); 
+        var $form = $(this), 
+                url = $form.attr('action'); 
+        var posting = $.post(url, {username: $('#username').val(), password: $('#password').val()}); 
+        posting.done(function(data){ 
+                alert('success'); 
+        }); 
+}); 
+</script> 
+</body> 
+</html> 
