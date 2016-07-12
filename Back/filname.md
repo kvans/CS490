@@ -1,3 +1,4 @@
+```
 <?php
 $link = mysqli_connect('sql2.njit.edu','kv96','PQrAbwHR'); //Creates a connection
     if(!$link){
@@ -22,3 +23,4 @@ else{
 mysqli_free_result($query);//Dumps data
 mysqli_close($link);
 ?>
+```
