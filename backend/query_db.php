@@ -11,8 +11,8 @@ function isValidLogin($User, $Pass){
     $query = mysqli_query($link,"SELECT * FROM Log_in WHERE User_ID = '$User' AND Password ='$Pass'"); //Finds the database and chooses the row
     //$result = mysqli_query($query);
     $row = mysqli_fetch_array($query); //Fetches the row
-    if($row['User_ID'] != null && $row['Password'] != null){echo 'Here';}
-    else{echo "Nope";}
+    if($row['User_ID'] != null && $row['Password'] != null){return true;}
+    else{return false;}
     
 }
 //echo isValidLogin('kv96','passkv');
