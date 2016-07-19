@@ -9,13 +9,13 @@
 # Author: Brian Hernandez
 #
 
-include "backend/query_db.php";
+include "../backend/query_db.php";
 
 $username = $_POST["username"];
 $password = $_POST["password"];
 
 if (isValidLogin($username, $password)) {
-    echo "{ isValid: true }";
+    echo "{ isValid: true, role: " . getLoginRole($username) . " }";
 }
 else {
     echo "{ isValid: false }";
