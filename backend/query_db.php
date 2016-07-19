@@ -24,6 +24,13 @@ function getLoginRole($User){
     //$result = mysqli_query($query);
     $row = mysqli_fetch_array($query); //Fetches the row
     mysqli_close($link);
-    if($row['Role'] == 't'){return "t";}
+    if($row['Role'] == 't'){echo 'a Teacher';}
+    if($row['Role'] == 's'){echo 'a Student';}
     else{return "s";}
+}
+function CreateOE($Question, $Input1, $Input2, $Input3, $Correct1, $Correct2, $Correct3, $Points){
+    $link = connectToDatabase();
+    $OE= "INSERT INTO CreateOE (Question, Input1, Input2, Input3, Correct1, Correct2, Correct3, Points) VALUES ('$Question', '$Input1', '$Input2', '$Input3', '$Correct1', '$Correct2', '$Correct3', '$Points')";
+    mysqli_query($link,$OE);
+    mysqli_close($link);
 }
