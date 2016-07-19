@@ -1,7 +1,7 @@
  <?php
 
  function connectToDatabase() {
-     $link = mysqli_connect('sql2.njit.edu', 'kv96', 'PQrAbwHR');
+     $link = mysqli_connect('127.0.0.1', 'kv96', 'PQrAbwHR');
      if (!$link) { die('Could not connect: ' . mysql_error()); }
      mysqli_select_db($link, 'kv96') or die(mysqli_error());
      return $link;
@@ -24,13 +24,13 @@ function getLoginRole($User){
     //$result = mysqli_query($query);
     $row = mysqli_fetch_array($query); //Fetches the row
     mysqli_close($link);
-    if($row['Role'] == 't'){echo 'a Teacher';}
-    if($row['Role'] == 's'){echo 'a Student';}
+    if($row['Role'] == 't'){return 't';}
+    if($row['Role'] == 's'){return 's';}
     else{return "s";}
 }
-function CreateOE($Question, $Input1, $Input2, $Input3, $Correct1, $Correct2, $Correct3, $Points){
+function CreateOE($Question, $Input1, $Input2, $Input3, $Correct1, $Correct2, $Correct3){
     $link = connectToDatabase();
-    $OE= "INSERT INTO CreateOE (Question, Input1, Input2, Input3, Correct1, Correct2, Correct3, Points) VALUES ('$Question', '$Input1', '$Input2', '$Input3', '$Correct1', '$Correct2', '$Correct3', '$Points')";
+    $OE= "INSERT INTO CreateOE (Question, Input1, Input2, Input3, Correct1, Correct2, Correct3) VALUES ('$Question', '$Input1', '$Input2', '$Input3', '$Correct1', '$Correct2', '$Correct3')";
     mysqli_query($link,$OE);
     mysqli_close($link);
 }
