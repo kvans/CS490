@@ -24,4 +24,5 @@ CreateOE(
     $correct1, $correct2, $correct3
 );
 
-echo "{ success: true }";
+echo "Successfully Added Question";
+header ("refresh:1; url=../instructorL.php");
