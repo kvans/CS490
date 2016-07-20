@@ -1,15 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>View Questions</title>
+</head>
+<body>
 <?php
-  include "query_db.php";
-  $link = connectToDatabase();
-  $query = mysqli_query($link, "SELECT * FROM CreateOE");
+        $link = mysqli_connect('sql2.njit.edu', 'kv96', 'PQrAbwHR');
+        if (!link) {
+                die('Could not Connect: ' . mysql_error());
+        }
+        mysqli_select_db($link, 'kv96') or die(mysqli_error());
+        $query = "SELECT * FROM CreateOE";
+        $result = mysqli_query($query);
 
-  echo "<table>";
+        $num = mysqli_numrows($result);
 
-  while($row = mysql_fetch_array($query)){
-    echo "<tr><td>" . $row['Question'] . "</td><td>" . $row['Input1'] . "</td><td>" . $row['Input2'] . "</td><td>" . $row['Input3'] . "</td><td>" . $row['Correct1'] . $row['Correct2'] . "</td><td>" . $row['Correct3'] . "</td></tr>";
-  }
+        mysqli_close();
 
-  echo "</table>";
+        echo "<b><center>Database Output</center></b><br><br>";
 
-  mysql_close();
+        $i = 0;
+        while ($i < $num) {
+                $Question = mysql_result($result, $i, "Question");
+                $Input1 = mysql_result($result, $i, "Input1");
+                $Input2 = mysql_result($result, $i, "Input2");
+                $Input3 = mysql_result($result, $i, "Input3");
+                $Correct1 = mysql_result($result, $i, "Correct1");
+                $Correct2 = mysql_result($result, $i, "Correct2");
+                $Correct3 = mysql_result($result, $i, "Correct3");
+
+                echo "<b>$Question</b><br>$Input1 $Correct1<br>$Input2 $Correct2<br>$Input3 $correct3<br>";
+
+                $i++;
+        }       
 ?>
+</body>
+</html>
