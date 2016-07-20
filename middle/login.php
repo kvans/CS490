@@ -16,9 +16,14 @@ $password = $_POST["password"];
 
 if (isValidLogin($username, $password)) {
     if (getLoginRole($username) == "t"){
+        session_start();
         header("Location: instructorL.php");
+    }
+    else{
+        echo "Student";
     }
 }
 else {
     die(header("location:index.php?loginFailed=true&reason=password"));
 }
+?>
