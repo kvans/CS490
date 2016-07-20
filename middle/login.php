@@ -15,7 +15,9 @@ $username = $_POST["username"];
 $password = $_POST["password"];
 
 if (isValidLogin($username, $password)) {
-    echo "{ isValid: true, role: " . getLoginRole($username) . " }";
+    if (getLoginRole($username) == "t"){
+        header("Location: instructorL.php");
+    }
 }
 else {
     echo "{ isValid: false }";
