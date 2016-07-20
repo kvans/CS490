@@ -34,14 +34,14 @@ function CreateOE($Question, $Input1, $Input2, $Input3, $Correct1, $Correct2, $C
     mysqli_query($link,$OE);
     mysqli_close($link);
 }
-function InsertintoExamBank($name, $arr){
+function InsertintoExamBank($arr){
     $link = connectToDatabase();
     //$ExamName = mysqli_query($link, "INSERT INTO ExamBank(ExamName) VALUES ($name)");
     $sizeAr = count($arr);
 //    foreach($arr as $ar){
         switch($sizeAr){
             case 1:
-                $a0 = mysqli_query($link, "INSERT INTO ExamBank(Q1,ExamName) VALUES ($arr[0], $name)");
+                $a0 = mysqli_query($link, "INSERT INTO ExamBank(Q1,ExamName) VALUES ($arr[0])");
                 break;
             case 2:
                 $a1 = mysqli_query($link, "INSERT INTO ExamBank(Q1, Q2) VALUES ($arr[0],$arr[1])");
