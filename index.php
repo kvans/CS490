@@ -11,17 +11,14 @@
     <input type="username" id="username" name="username" placeholder="username" required><br> 
     <label for="password">Password: </label> 
     <input type="password" id="password" name="password" placeholder="password" required><br> 
-    <button id="loginButton" type="submit">Login</button> 
+    <button id="loginButton" type="submit">Login</button>
+    <br>
+    <?php
+        $reasons = array("password" => "Wrong Username or PAssword");
+            if ($_GET["loginFailed"]){
+                echo $reasons[$_GET["reason']];
+            }
+    ?>
 </form> 
-
-<script type='text/javascript'> 
-
-var loginButton = document.getElementById("loginButton");
-loginButton.addEventListener("click", onLoginButtonClick);
-function onLoginButtonClick() {
-
-}
-
-</script> 
 </body> 
 </html> 
