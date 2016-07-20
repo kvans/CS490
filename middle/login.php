@@ -20,5 +20,5 @@ if (isValidLogin($username, $password)) {
     }
 }
 else {
-    echo "{ isValid: false }";
+    die(header("location:index.php?loginFailed=true&reason=password"));
 }
