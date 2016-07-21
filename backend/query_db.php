@@ -34,6 +34,15 @@ function CreateOE($Question, $Input1, $Input2, $Input3, $Correct1, $Correct2, $C
     mysqli_query($link,$OE);
     mysqli_close($link);
 }
+function DisplayOE(){
+    $link = connectToDatabase();
+    $rows = mysqli_query($link, "SELECT * FROM CreateOE"); 
+    while ($row = mysqli_fetch_array($rows)) {
+        $oe[] =$row;
+    }
+        return $oe;
+        mysqli_close($link);
+    }
 function InsertintoExamBank($arr){
     $link = connectToDatabase();
     //$ExamName = mysqli_query($link, "INSERT INTO ExamBank(ExamName) VALUES ($name)");
