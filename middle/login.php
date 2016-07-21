@@ -15,15 +15,14 @@ $username = $_POST["username"];
 $password = $_POST["password"];
 
 if (isValidLogin($username, $password)) {
+    session_start();
     if (getLoginRole($username) == "t"){
-        session_start();
-        header("Location: instructorL.php");
+        echo ' { "isValid": "true", "url": "../frontend/instructorL.php" } ';
     }
-    else{
-        echo "Student";
+    else {
+        echo '{ "isValid": "true", "url": "../frontend/instructorL.php" }';
     }
 }
 else {
-    die(header("location:index.php?loginFailed=true&reason=password"));
+    echo ' { "isValidLogin": "false" } ';
 }
-?>

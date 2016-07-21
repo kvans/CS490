@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html> 
+
+<head> 
+    <title>Login Screen</title> 
+</head> 
+
+<body>
+
+<form name="login" id="login-form" accept-charset="utf-8">
+    <label for="username">Username: </label> 
+    <input type="text" id="username" name="username" placeholder="username" required><br>
+    <label for="password">Password: </label> 
+    <input type="password" id="password" name="password" placeholder="password" required><br>
+</form>
+<button id="loginButton">Login</button>
+
+<br>
+
+<script>
+
+    var loginButton = document.getElementById("loginButton");
+    loginButton.addEventListener("click", onLogin);
+
+    function onLogin() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var queryString = "username=" + username + "&" + "password=" + password;
+        sendLoginRequest(queryString, onLoginResponse);
+    }
+
+    function sendLoginRequest(queryString, onResponse) {
+        var postRequest = new XMLHttpRequest();
+        postRequest.open("POST", "middle/login.php", true);
+        postRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        postRequest.onreadystatechange = onResponse;
+        postRequest.send(queryString);
+    }
+
+    function onLoginResponse(data) {
+        if (data.target.readyState == 4) {
+            var response = JSON.parse(data.target.response);
+            if (response.isValid === "true") {
+                window.location.replace(response.url);
+            }
+        }
+    }
+
+</script>
+
+</body>
+</html>

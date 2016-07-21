@@ -23,6 +23,3 @@ CreateOE(
     $input1, $input2, $input3,
     $correct1, $correct2, $correct3
 );
-
-echo "Successfully Added Question";
-header ("refresh:1; url=../instructorL.php");
