@@ -62,3 +62,13 @@ function CreateExamDB($arr, $name){
     mysqli_close($link);
     
 }
+function DisplayExam($name){
+   $link = connectToDatabase();
+    $query = mysqli_query($link,"SELECT Question FROM `".$name."`");
+    //$info = array();
+    while($oe = mysqli_fetch_assoc($query)) {
+        $info[] = $oe;
+    }
+    return $info;
+    
+}
