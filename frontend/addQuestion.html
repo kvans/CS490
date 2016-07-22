@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Questions</title>
+</head>
+
+<body>
+
+<form id="addQuestion-form" method="post" accept-charset="utf-8">
+    <label for="question">Enter Question:</label><br>
+    <textarea id="question" rows="5" cols="80" name="question"></textarea>
+    <br>
+        <fieldset>
+            <legend>Test Case 1:</legend>
+            <label for="input1">Input 1:</label><br>
+            <input type="text" id="input1" name="input1"><br>
+            <label for="correct1"> Answer 1:</label><br>
+            <input type="text" id="correct1" name="correct1"><br>
+        </fieldset>
+        <fieldset>
+            <legend>Test Case 2:</legend>
+            <label for="input2">Input 2:</label> <br>
+            <input type="text" id="input2" name="input2"><br>
+            <label for="correct2">Answer 2:</label><br>
+            <input type="text" id="correct2" name="correct2"><br>
+        </fieldset>
+        <fieldset>
+            <legend>Test Case 3:</legend>
+            <label for="input3">Input 3:</label><br>
+            <input type="text" id="input3" name="input3"><br>
+            <label for="correct3">Answer 3:</label><br>
+            <input type="text" id="correct3" name="correct3"><br>
+        </fieldset>
+</form>
+<button id="submitButton" type="submit">Submit</button>
+
+<script src="ajaxUtilities.js"></script>
+<script>
+
+    var submitButton = document.getElementById("submitButton");
+    submitButton.addEventListener("click", onSubmit);
+
+    function onSubmit() {
+        var params = getFormFieldValuesObject();
+        var queryString = createQueryParametersString(params);
+        console.log(queryString);
+        sendPostRequest("../middle/add_question.php", queryString, onResponse);
+    }
+
+    function getFormFieldValuesObject() {
+        return {
+            "question": document.getElementById("question").value,
+            "input1"  : document.getElementById("input1").value,
+            "input2"  : document.getElementById("input2").value,
+            "input3"  : document.getElementById("input3").value,
+            "correct1": document.getElementById("correct1").value,
+            "correct2": document.getElementById("correct2").value,
+            "correct3": document.getElementById("correct3").value
+        };
+    }
+
+    function onResponse(data) {
+        if (data.target.readyState === 4) {
+            console.log(data);
+        }
+    }
+
+</script>
+
+</body>
+</html>

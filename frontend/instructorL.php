@@ -21,7 +21,7 @@
 <h1 align="center">Welcome Instructor</h1>
     <body>
         <div class="feature">
-            <a href="addQuestion.php">Add a Question</a>
+            <a href="addQuestion.html">Add a Question</a>
         </div>
         <br>
         <div class="feature">

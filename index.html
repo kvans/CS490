@@ -19,6 +19,7 @@
 
 <br>
 
+<script src="frontend/ajaxUtilities.js"></script>
 <script>
 
     var loginButton = document.getElementById("loginButton");
@@ -28,15 +29,7 @@
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
         var queryString = "username=" + username + "&" + "password=" + password;
-        sendLoginRequest(queryString, onLoginResponse);
-    }
-
-    function sendLoginRequest(queryString, onResponse) {
-        var postRequest = new XMLHttpRequest();
-        postRequest.open("POST", "middle/login.php", true);
-        postRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        postRequest.onreadystatechange = onResponse;
-        postRequest.send(queryString);
+        sendPostRequest("middle/login.php", queryString, onLoginResponse);
     }
 
     function onLoginResponse(data) {
