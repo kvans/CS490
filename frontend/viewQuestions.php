@@ -5,34 +5,31 @@
 </head>
 <body>
 <?php
-        $link = mysqli_connect('sql2.njit.edu', 'kv96', 'PQrAbwHR');
-        if (!link) {
-                die('Could not Connect: ' . mysql_error());
-        }
-        mysqli_select_db($link, 'kv96') or die(mysqli_error());
+        include "../query_db.php";
+        $link = connectToDatabase();
         $query = "SELECT * FROM CreateOE";
-        $result = mysqli_query($query);
-
-        $num = mysqli_numrows($result);
-
-        mysqli_close();
+        $result = mysqli_query($link, $query);
+        if($result == NULL){
+                echo "Failed";
+        }
 
         echo "<b><center>Database Output</center></b><br><br>";
 
-        $i = 0;
-        while ($i < $num) {
-                $Question = mysql_result($result, $i, "Question");
-                $Input1 = mysql_result($result, $i, "Input1");
-                $Input2 = mysql_result($result, $i, "Input2");
-                $Input3 = mysql_result($result, $i, "Input3");
-                $Correct1 = mysql_result($result, $i, "Correct1");
-                $Correct2 = mysql_result($result, $i, "Correct2");
-                $Correct3 = mysql_result($result, $i, "Correct3");
+        while($row = mysqli_fetch_array($result)){
 
-                echo "<b>$Question</b><br>$Input1 $Correct1<br>$Input2 $Correct2<br>$Input3 $correct3<br>";
+                $Question = $row['Question'];
+                $Input1 = $row['Input1'];
+                $Input2 = $row['Input2'];
+                $Input3 = $row['Input3'];
+                $Correct1 = $row['Correct1'];
+                $Correct2 = $row['Correct2'];
+                $Correct3 = $row['Correct3'];
 
-                $i++;
-        }       
+                echo "<fieldset><b>$Question</b><br><br><b>$Input1:</b> $Correct1<br><b>$Input2:</b> $Correct2<br><b>$Input3:</b> $Correct3<br></fieldset>";
+                echo "<a href=\"deleteQuestion.php?id=$Question\">Delete</a>";
+                echo "<br><br>";
+        }    
+        mysql_close($link);
 ?>
 </body>
 </html>
