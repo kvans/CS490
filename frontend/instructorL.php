@@ -25,15 +25,15 @@
         </div>
         <br>
         <div class="feature">
-            <a href="">View Question Bank</a>
+            <a href="viewQuestions.php">View Question Bank</a>
         </div>
         <br>
         <div class="feature">
-            <a href="">Create Exam</a>
+            <a href="examCreation.php">Create Exam</a>
         </div>
         <br>
         <div class="feature">
-            <a href="">View Exsisting Exams</a>
+            <a href="">View Existing Exams</a>
         </div>
     </body>
 </html>

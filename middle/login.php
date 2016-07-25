@@ -20,7 +20,7 @@ if (isValidLogin($username, $password)) {
         echo ' { "isValid": "true", "url": "../frontend/instructorL.php" } ';
     }
     else {
-        echo '{ "isValid": "true", "url": "../frontend/instructorL.php" }';
+        echo '{ "isValid": "true", "url": "../frontend/studentL.php" }';
     }
 }
 else {
