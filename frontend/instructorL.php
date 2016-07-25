@@ -31,9 +31,5 @@
         <div class="feature">
             <a href="">Create Exam</a>
         </div>
-        <br>
-        <div class="feature">
-            <a href="">View Exsisting Exams</a>
-        </div>
     </body>
 </html>
