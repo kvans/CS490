@@ -62,6 +62,17 @@ function CreateExamDB($arr, $name){
     mysqli_close($link);
     
 }
+
+function DisplayExam($name){
+    $link = connectToDatabase();
+     $query = mysqli_query($link,"SELECT Question FROM `".$name."`");
+     //$info = array();
+     while($oe = mysqli_fetch_assoc($query)) {
+         $info[] = $oe;
+     }
+     return $info;
+     
+}
 //INSERT $nAME of exam that teacher created
 //INSERT $arraytest, an array with QID's FROM CREATE OE WHICH ARE ON THE EXAM
 //This function calls GETQUestionAnswer so you dont need to call that function
