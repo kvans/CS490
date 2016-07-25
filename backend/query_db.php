@@ -62,3 +62,102 @@ function CreateExamDB($arr, $name){
     mysqli_close($link);
     
 }
+//INSERT $nAME of exam that teacher created
+//INSERT $arraytest, an array with QID's FROM CREATE OE WHICH ARE ON THE EXAM
+//This function calls GETQUestionAnswer so you dont need to call that function
+function TakeExam($name, $arraytest){
+$link = connectToDatabase();
+$student = $name."exam";
+$sql = "CREATE TABLE `".$student."` (
+QuestionID INT(255) NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+Question TEXT NOT NULL, 
+Correct1 TEXT NOT NULL, 
+Correct2 TEXT NOT NULL, 
+Correct3 TEXT NOT NULL, 
+StudAnswer TEXT NOT NULL, 
+StudAnswer2 TEXT NOT NULL, 
+StudAnswer3 TEXT NOT NULL,  
+Points INT(255) NOT NULL 
+)";    
+mysqli_query($link, $sql);
+    
+GetQuestionandAnswer($name, $student, $arraytest);
+mysqli_close($link);
+}
+//INSERT $NAME of exam that teacher created
+//INSERT $STUDENT the name of the exam created in function TAKEEXAM
+// INSERT an array with with QID's from createOE, which are on the exam
+
+function GetQuestionandAnswer($name, $student, $arraytest){
+    $link = connectToDatabase();
+    //$sql2 = mysqli_query($link, "SELECT QuestionID  FROM ".$name."");
+     foreach($arraytest as $arr){
+         echo $arr;
+       $CorrectAns = mysqli_query($link, "SELECT * FROM CreateOE WHERE QID = '$arr'");
+        $fetch = mysqli_fetch_array($CorrectAns);
+         print_r($fetch);
+        
+        $Correct1 = $fetch["Correct1"];
+        $Correct2 = $fetch["Correct2"];
+        $Correct3 = $fetch["Correct3"];
+        $Question = $fetch["Question"];
+        //$QuestionID = $fetch["QID"];
+        $query = mysqli_query($link, "INSERT INTO ".$student."(Correct1, Correct2, Correct3, Question) VALUES ( '$Correct1','$Correct2', '$Correct3', '$Question')");   
+          
+     }
+
+    mysqli_close($link);
+}
+//INSERT an $array of the students inputs
+//Insert $name of table that is created in Takeexam function
+//INSERT $questionid from table that is created in takeexam function
+function AddStudentsAns($array, $student, $qid){
+    $link = connectToDatabase();
+    mysqli_query($link,"UPDATE ".$student." SET StudAnswer = '$array[0]', StudAnswer2 = '$array[1]', StudAnswer3 = '$array[2]' WHERE QuestionID =  '$qid[0]'");
+        //"INSERT INTO ".$student."(StudAnswer, StudAnswer2, StudAnswer3) VALUES ('$array[0]','$array[1]','$array[2]'
+    //"UPDATE ".$student." SET StudAnswer = '$array[0]', StudAnswer2 = '$array[1]', StudAnswer3 = '$array[2]' WHERE QuestionID =  '$qid'"
+        
+mysqli_close($link);    
+}
+//Insert $arrayquestions - Array of QIDS from STUDENT EXAM TABLE ex:If you were looking at NIARAN table in phpmyadmin you would send me an arrray cosisting of 1,2,3
+//Insert $student- StudentExamname which is created in takeexamfunction
+function CompareAns($arrayquestions, $student){
+   $link = connectToDatabase();
+    $totalcounter = 0;
+    foreach($arrayquestions as $arr){
+        $counter = 0;
+        $query = mysqli_query($link, "SELECT Correct1, Correct2, Correct3, StudAnswer, StudAnswer2, StudAnswer3 FROM ".$student." WHERE QuestionID = '$arr'");
+        $fetch = mysqli_fetch_assoc($query);
+        $cor1 = $fetch['Correct1'];
+        $cor2 =$fetch['Correct2'];
+        $cor3 =$fetch['Correct3'];
+        $stud1 =$fetch['StudAnswer'];
+        $stud2 =$fetch['StudAnswer2'];
+        $stud3 =$fetch['StudAnswer3'];
+        if($cor1 == $stud1){$counter++;}
+        $totalcounter++;
+        if($cor2 == $stud2){$counter++;}
+        $totalcounter++;
+        if($cor3 == $stud3){$counter++;}
+        $totalcounter++;
+        $points = $counter;
+        $insert = mysqli_query($link, "UPDATE ".$student." SET Points = '$points' WHERE QuestionID = '$arr'");
+    }
+    mysqli_close($link);
+}
+//Insert $student - Student exam name
+//Insert $arrays - Arrays of QID from Exam Table or StudentExam table EX:Niaran or Niaranexam
+function CalculateGrade($student,$arrays){
+    $link = connectToDatabase();
+    $query = mysqli_query($link, "SELECT QuestionID FROM ".$student." ORDER BY QuestionID DESC LIMIT 1");
+    $fetch =mysqli_fetch_array($query); 
+    $TotalNumberQuestions = $fetch[0] * 3;
+    foreach($arrays as $arr){
+        $query = mysqli_query($link, "SELECT Points FROM ".$student." WHERE QuestionID = '$arr'");
+        $fetch = mysqli_fetch_assoc($query);
+        $point += $fetch["Points"] * 100;
+    }
+    $Grade = ($point/$TotalNumberQuestions);
+    return $Grade;
+    mysqli_close($link);
+}
