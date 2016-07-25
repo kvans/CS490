@@ -5,7 +5,7 @@
 </head>
 <body>
 <?php
-        include "../query_db.php";
+        include "../backend/query_db.php";
         $link = connectToDatabase();
         $query = "SELECT * FROM CreateOE";
         $result = mysqli_query($link, $query);
@@ -29,7 +29,7 @@
                 echo "<a href=\"deleteQuestion.php?id=$Question\">Delete</a>";
                 echo "<br><br>";
         }    
-        mysql_close($link);
+        mysqli_close($link);
 ?>
 </body>
 </html>

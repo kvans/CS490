@@ -26,9 +26,10 @@
     loginButton.addEventListener("click", onLogin);
 
     function onLogin() {
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-        var queryString = "username=" + username + "&" + "password=" + password;
+        var queryString = createQueryParametersString({
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value
+        });
         sendPostRequest("middle/login.php", queryString, onLoginResponse);
     }
 

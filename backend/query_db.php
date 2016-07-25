@@ -40,9 +40,9 @@ function DisplayOE(){
     while ($row = mysqli_fetch_array($rows)) {
         $oe[] =$row;
     }
-        return $oe;
-        mysqli_close($link);
-    }
+    mysqli_close($link);
+    return $oe;
+}
 function CreateExamDB($arr, $name){
     $link = connectToDatabase();
     $sql = "CREATE TABLE `".$name."` (
