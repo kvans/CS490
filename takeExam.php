@@ -4,12 +4,11 @@
 <title>Take Exam</title>
 </head>
 <body>
-<form name="examTake" id="examTake-form" method="post"
-action="" accept-charset="utf-8">
+<form name="examTake" id="examTake-form" method="post" action="../middle/check_program.php" accept-charset="utf-8">
         
         
         <?php
-                include "../query_db.php";
+                include "../backend/query_db.php";
 
                 $link = connectToDatabase();
                 $query = "SELECT * FROM CreateOE";
