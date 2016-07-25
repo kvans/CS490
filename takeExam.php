@@ -12,7 +12,7 @@ action="" accept-charset="utf-8">
                 include "../query_db.php";
 
                 $link = connectToDatabase();
-                $query = "SELECT * FROM ExamQues";
+                $query = "SELECT * FROM CreateOE";
                 $result = mysqli_query($link, $query);
                 if($result == NULL){
                         echo "Failed";
