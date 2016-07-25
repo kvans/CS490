@@ -21,7 +21,7 @@
 <h1 align="center">Welcome Student</h1>
 <body>
         <div class="feature">
-                <a href="">Take Exam</a>
+                <a href="takeExam.php">Take Exam</a>
         </div>
         <div class="feature">
                 <a href="">View Results</a>
