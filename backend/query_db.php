@@ -1,16 +1,24 @@
- <?php
+<?php
 
- function connectToDatabase() {
+// Globals specifying the table names
+$logInTable = "LogIn";
+$questionsTable = "Questions";
+$examsTable = "Exams";
+$examsQuestionsTable = "ExamsQuestions";
+$studentsAnswersTable = "StudentsAnswers";
+
+function connectToDatabase() {
      $link = mysqli_connect('127.0.0.1', 'kv96', 'PQrAbwHR');
      if (!$link) { die('Could not connect: ' . mysql_error()); }
-     mysqli_select_db($link, 'kv96') or die(mysqli_error());
+     mysqli_select_db($link, 'kv96') or die(mysql_error());
      return $link;
  }
 
-function isValidLogin($User, $Pass){
+function isValidLogin($User, $Pass) {
+    global $logInTable;
     $link = connectToDatabase();
-    $query = mysqli_query($link,"SELECT * FROM Log_in WHERE User_ID = '$User' AND Password ='$Pass'"); //Finds the database and chooses the row
-    //$result = mysqli_query($query);
+    $query = mysqli_query($link,"SELECT * FROM " . $logInTable .
+        " WHERE User_ID = '$User' AND Password ='$Pass'"); //Finds the database and chooses the row
     $row = mysqli_fetch_array($query); //Fetches the row
     mysqli_close($link);
     if($row['User_ID'] != null && $row['Password'] != null){return true;}
@@ -18,9 +26,10 @@ function isValidLogin($User, $Pass){
 
 }
 
-function getLoginRole($User){
+function getLoginRole($User) {
+    global $logInTable;
     $link = connectToDatabase();
-    $query = mysqli_query($link,"SELECT * FROM Log_in WHERE User_ID = '$User'" ); //Finds the database and chooses the row
+    $query = mysqli_query($link,"SELECT * FROM " . $logInTable . " WHERE User_ID = '$User'" ); //Finds the database and chooses the row
     //$result = mysqli_query($query);
     $row = mysqli_fetch_array($query); //Fetches the row
     mysqli_close($link);
@@ -28,39 +37,26 @@ function getLoginRole($User){
     if($row['Role'] == 's'){return 's';}
     else{return "s";}
 }
-function CreateOE($Question, $Input1, $Input2, $Input3, $Correct1, $Correct2, $Correct3){
+
+function createNewQuestion($Question, $Input1, $Input2, $Input3, $Correct1, $Correct2, $Correct3) {
+    global $questionsTable;
     $link = connectToDatabase();
-    $OE= "INSERT INTO CreateOE (Question, Input1, Input2, Input3, Correct1, Correct2, Correct3) VALUES ('$Question', '$Input1', '$Input2', '$Input3', '$Correct1', '$Correct2', '$Correct3')";
-    mysqli_query($link,$OE);
+    $insertQuery= "INSERT INTO" . $questionsTable .
+        "(Question, Input1, Input2, Input3, Correct1, Correct2, Correct3) VALUES" .
+        "('$Question', '$Input1', '$Input2', '$Input3', '$Correct1', '$Correct2', '$Correct3')";
+    mysqli_query($link,$insertQuery);
     mysqli_close($link);
 }
-function DisplayOE(){
+
+function DisplayQuestions() {
+    global $questionsTable;
     $link = connectToDatabase();
-    $rows = mysqli_query($link, "SELECT * FROM CreateOE"); 
+    $rows = mysqli_query($link, "SELECT * FROM " . $questionsTable);
     while ($row = mysqli_fetch_array($rows)) {
         $oe[] =$row;
     }
     mysqli_close($link);
     return $oe;
-}
-function CreateExamDB($arr, $name){
-    $link = connectToDatabase();
-    $sql = "CREATE TABLE `".$name."` (
-    QuestionNum INT(255) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    QuestionID INT(255) NOT NULL,  
-    Question TEXT NOT NULL
-    )";
-    mysqli_query($link, $sql);
-    foreach($arr as $ar){
-        $questions = mysqli_query($link, "SELECT QID, Question FROM CreateOE WHERE QID = '$ar'");
-        $fetch = mysqli_fetch_assoc($questions);
-        $qid =$fetch['QID'];
-        $quest = $fetch['Question'];
-        $OE = mysqli_query($link, "INSERT INTO ".$name."(QuestionID, Question) VALUES ('$qid', '$quest')");
-        
-    }
-    mysqli_close($link);
-    
 }
 
 function DisplayExam($name){
@@ -71,50 +67,29 @@ function DisplayExam($name){
          $info[] = $oe;
      }
      return $info;
-     
+
 }
-//INSERT $nAME of exam that teacher created
-//INSERT $arraytest, an array with QID's FROM CREATE OE WHICH ARE ON THE EXAM
-//This function calls GETQUestionAnswer so you dont need to call that function
-function TakeExam($name, $arraytest){
-$link = connectToDatabase();
-$student = $name."exam";
-$sql = "CREATE TABLE `".$student."` (
-QuestionID INT(255) NOT NULL AUTO_INCREMENT PRIMARY KEY,  
-Question TEXT NOT NULL, 
-Correct1 TEXT NOT NULL, 
-Correct2 TEXT NOT NULL, 
-Correct3 TEXT NOT NULL, 
-StudAnswer TEXT NOT NULL, 
-StudAnswer2 TEXT NOT NULL, 
-StudAnswer3 TEXT NOT NULL,  
-Points INT(255) NOT NULL 
-)";    
-mysqli_query($link, $sql);
-    
-GetQuestionandAnswer($name, $student, $arraytest);
-mysqli_close($link);
-}
+
 //INSERT $NAME of exam that teacher created
 //INSERT $STUDENT the name of the exam created in function TAKEEXAM
 // INSERT an array with with QID's from createOE, which are on the exam
-
 function GetQuestionandAnswer($name, $student, $arraytest){
+    global $questionTables;
     $link = connectToDatabase();
     //$sql2 = mysqli_query($link, "SELECT QuestionID  FROM ".$name."");
      foreach($arraytest as $arr){
          echo $arr;
-       $CorrectAns = mysqli_query($link, "SELECT * FROM CreateOE WHERE QID = '$arr'");
+       $CorrectAns = mysqli_query($link, "SELECT * FROM " . $questionTables . " WHERE QID = '$arr'");
         $fetch = mysqli_fetch_array($CorrectAns);
          print_r($fetch);
-        
+
         $Correct1 = $fetch["Correct1"];
         $Correct2 = $fetch["Correct2"];
         $Correct3 = $fetch["Correct3"];
         $Question = $fetch["Question"];
         //$QuestionID = $fetch["QID"];
-        $query = mysqli_query($link, "INSERT INTO ".$student."(Correct1, Correct2, Correct3, Question) VALUES ( '$Correct1','$Correct2', '$Correct3', '$Question')");   
-          
+        $query = mysqli_query($link, "INSERT INTO ".$student."(Correct1, Correct2, Correct3, Question) VALUES ( '$Correct1','$Correct2', '$Correct3', '$Question')");
+
      }
 
     mysqli_close($link);
@@ -127,9 +102,10 @@ function AddStudentsAns($array, $student, $qid){
     mysqli_query($link,"UPDATE ".$student." SET StudAnswer = '$array[0]', StudAnswer2 = '$array[1]', StudAnswer3 = '$array[2]' WHERE QuestionID =  '$qid[0]'");
         //"INSERT INTO ".$student."(StudAnswer, StudAnswer2, StudAnswer3) VALUES ('$array[0]','$array[1]','$array[2]'
     //"UPDATE ".$student." SET StudAnswer = '$array[0]', StudAnswer2 = '$array[1]', StudAnswer3 = '$array[2]' WHERE QuestionID =  '$qid'"
-        
+
 mysqli_close($link);    
 }
+
 //Insert $arrayquestions - Array of QIDS from STUDENT EXAM TABLE ex:If you were looking at NIARAN table in phpmyadmin you would send me an arrray cosisting of 1,2,3
 //Insert $student- StudentExamname which is created in takeexamfunction
 function CompareAns($arrayquestions, $student){
@@ -156,19 +132,28 @@ function CompareAns($arrayquestions, $student){
     }
     mysqli_close($link);
 }
+
 //Insert $student - Student exam name
 //Insert $arrays - Arrays of QID from Exam Table or StudentExam table EX:Niaran or Niaranexam
 function CalculateGrade($student,$arrays){
     $link = connectToDatabase();
     $query = mysqli_query($link, "SELECT QuestionID FROM ".$student." ORDER BY QuestionID DESC LIMIT 1");
-    $fetch =mysqli_fetch_array($query); 
+    $fetch =mysqli_fetch_array($query);
     $TotalNumberQuestions = $fetch[0] * 3;
+    $point = "";
     foreach($arrays as $arr){
         $query = mysqli_query($link, "SELECT Points FROM ".$student." WHERE QuestionID = '$arr'");
         $fetch = mysqli_fetch_assoc($query);
         $point += $fetch["Points"] * 100;
     }
     $Grade = ($point/$TotalNumberQuestions);
-    return $Grade;
     mysqli_close($link);
+    return $Grade;
+}
+
+// Creates a new exam in the database by adding an entry
+// with the exam name in the Exams table and adding the
+// given questions to the ExamsQuestions table.
+function createExam($examName, $qidsPoints2DArray) {
+
 }
