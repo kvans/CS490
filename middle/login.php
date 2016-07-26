@@ -1,8 +1,8 @@
 <?php
 
 #
-# Service allowing authentication of users login given
-# a username and password. Clients of this service can
+# Service endpoint providing authentication of users login
+# given a username and password. Clients of this service can
 # authenticate users using an HTTP POST with the username
 # and password given as part of the request body. 
 #
@@ -17,7 +17,7 @@ $password = $_POST["password"];
 if (isValidLogin($username, $password)) {
     session_start();
     if (getLoginRole($username) == "t"){
-        echo ' { "isValid": "true", "url": "../frontend/instructorL.php" } ';
+        echo '{ "isValid": "true", "url": "../frontend/instructorL.php" }';
     }
     else {
         echo '{ "isValid": "true", "url": "../frontend/studentL.php" }';
