@@ -154,6 +154,15 @@ function CalculateGrade($student,$arrays){
 // Creates a new exam in the database by adding an entry
 // with the exam name in the Exams table and adding the
 // given questions to the ExamsQuestions table.
-function createExam($examName, $qidsPoints2DArray) {
-
+function createExam($examName, $qids, $Points) {
+    $link = connectToDatabase();
+    $insertExam  = mysqli_query($link, "INSERT INTO Exams (ExamName) VALUES('$examName')");
+    $query = mysqli_query($link, "SELECT EID FROM Exams WHERE ExamName = '$examName'");
+    $fetch = mysqli_fetch_assoc($query);
+    $EID = $fetch["EID"];
+    for($i = 0; $i < sizeof($qids); $i++){
+        $insertExamQuestions = mysqli_query($link, "INSERT INTO ExamsQuestions(EID, QID, Points) VALUES ('$EID','$qids[$i]','$Points[$i]')");
+        
+    }
+    
 }
