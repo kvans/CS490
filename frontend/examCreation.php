@@ -6,14 +6,16 @@
 <body>
 <form name="examCreation" id="examCreation-form" method="post"
       action="../middle/create_exam.php" accept-charset="utf-8">
+
     <?php
         include "../backend/query_db.php";
 
         $link = connectToDatabase();
-        $query = "SELECT * FROM CreateOE";
+        global $questionsTable;
+        $query = "SELECT * FROM " . $questionsTable;
         $result = mysqli_query($link, $query);
-        if($result == NULL){
-                echo "Failed";
+        if ($result == NULL) {
+            echo "Failed";
         }
 
         echo "<b><center>Select Exam Questions</center></b><br><br>";
@@ -33,7 +35,7 @@
             $QID = $row['QID'];
 
             echo
-            "<input type=\"checkbox\" name=\"qName[]\" value=\"$QID\">
+            "<input type=\"checkbox\" name=\"qid[]\" value=\"$QID\">
             <fieldset><b>$Question</b>
                 <br><br>
                 <b>$Input1:</b>$Correct1
