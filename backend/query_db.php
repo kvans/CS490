@@ -41,7 +41,7 @@ function getLoginRole($User) {
 function createNewQuestion($Question, $Input1, $Input2, $Input3, $Correct1, $Correct2, $Correct3) {
     global $questionsTable;
     $link = connectToDatabase();
-    $insertQuery= "INSERT INTO" . $questionsTable .
+    $insertQuery= "INSERT INTO " . $questionsTable .
         "(Question, Input1, Input2, Input3, Correct1, Correct2, Correct3) VALUES" .
         "('$Question', '$Input1', '$Input2', '$Input3', '$Correct1', '$Correct2', '$Correct3')";
     mysqli_query($link,$insertQuery);
