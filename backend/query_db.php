@@ -42,7 +42,7 @@ function createNewQuestion($Question, $Input1, $Input2, $Input3, $Correct1, $Cor
     global $questionsTable;
     $link = connectToDatabase();
     $insertQuery= "INSERT INTO " . $questionsTable .
-        "(Question, Input1, Input2, Input3, Correct1, Correct2, Correct3) VALUES" .
+        " (Question, Input1, Input2, Input3, Correct1, Correct2, Correct3) VALUES " .
         "('$Question', '$Input1', '$Input2', '$Input3', '$Correct1', '$Correct2', '$Correct3')";
     mysqli_query($link,$insertQuery);
     mysqli_close($link);
