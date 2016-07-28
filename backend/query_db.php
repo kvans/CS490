@@ -164,5 +164,23 @@ function createExam($examName, $qids, $Points) {
         $insertExamQuestions = mysqli_query($link, "INSERT INTO ExamsQuestions(EID, QID, Points) VALUES ('$EID','$qids[$i]','$Points[$i]')");
         
     }
+    mysqli_close($link);
+}
+function DisplayExamStuff($eid){
+    $link = connectToDatabase();
+    $CollectQuestions = mysqli_query($link, "SELECT QID, Points FROM ExamsQuestions WHERE EID = '$eid'");
+    while($oe = mysqli_fetch_array($CollectQuestions)){
+         $info[] = $oe;
+    }
+    mysqli_close($link);
+    return $info;
     
 }
+function ExamsAnswers($QIDs,$arrayofAnswers,$SID, $EID){
+    $link = connectToDatabase(); 
+    for($i = 0; $i < sizeof($QIDs); $i++){
+        $insert = mysqli_query($link, "INSERT INTO StudentsAnswers(SID, EID, QID, AnswerCode) VALUES ('$SID','$EID','$QIDs[$i]','$arrayofAnswers[$i]')");
+    }
+    mysqli_close($link);
+}
+
