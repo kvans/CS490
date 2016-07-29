@@ -12,7 +12,7 @@ function connectToDatabase() {
      if (!$link) { die('Could not connect: ' . mysql_error()); }
      mysqli_select_db($link, 'kv96') or die(mysql_error());
      return $link;
- }
+}
 
 function isValidLogin($User, $Pass) {
     global $logInTable;
@@ -23,7 +23,6 @@ function isValidLogin($User, $Pass) {
     mysqli_close($link);
     if($row['User_ID'] != null && $row['Password'] != null){return true;}
     else{return false;}
-
 }
 
 function getLoginRole($User) {
@@ -41,22 +40,23 @@ function getLoginRole($User) {
 function createNewQuestion($Question, $Input1, $Input2, $Input3, $Correct1, $Correct2, $Correct3) {
     global $questionsTable;
     $link = connectToDatabase();
-    $insertQuery= "INSERT INTO " . $questionsTable .
+    $insertQuery= "INSERT INTO $questionsTable" .
         " (Question, Input1, Input2, Input3, Correct1, Correct2, Correct3) VALUES " .
         "('$Question', '$Input1', '$Input2', '$Input3', '$Correct1', '$Correct2', '$Correct3')";
     mysqli_query($link,$insertQuery);
     mysqli_close($link);
 }
 
-function DisplayQuestions() {
+function getAllQuestions() {
     global $questionsTable;
     $link = connectToDatabase();
-    $rows = mysqli_query($link, "SELECT * FROM " . $questionsTable);
-    while ($row = mysqli_fetch_array($rows)) {
-        $oe[] =$row;
+    $query = "SELECT * FROM $questionsTable";
+    $result = mysqli_query($link, $query);
+    $rows = array();
+    while ($row = mysqli_fetch_array($result)) {
+        array_push($rows, $row);
     }
-    mysqli_close($link);
-    return $oe;
+    return $rows;
 }
 
 function DisplayExam($name){
@@ -128,7 +128,7 @@ function CompareAns($arrayquestions, $student){
         if($cor3 == $stud3){$counter++;}
         $totalcounter++;
         $points = $counter;
-        $insert = mysqli_query($link, "UPDATE ".$student." SET Points = '$points' WHERE QuestionID = '$arr'");
+        mysqli_query($link, "UPDATE ".$student." SET Points = '$points' WHERE QuestionID = '$arr'");
     }
     mysqli_close($link);
 }

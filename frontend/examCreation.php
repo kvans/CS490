@@ -1,30 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Create Exam</title>
+    <title>Create Exam</title>
 </head>
 <body>
-<form name="examCreation" id="examCreation-form"
-      >
-
+<form>
     <?php
         include "../backend/query_db.php";
 
-        $link = connectToDatabase();
-        global $questionsTable;
-        $query = "SELECT * FROM " . $questionsTable;
-        $result = mysqli_query($link, $query);
-        if ($result == NULL) {
-            echo "Failed";
-        }
-
         echo "<b><center>Select Exam Questions</center></b><br><br>";
-
         echo "<b>Name of Exam: </b>";
         echo "<input type=\"text\" id=\"examName\" name=\"examName\"><br><br>";
 
         $i = 0;
-        while($row = mysqli_fetch_array($result)){
+        foreach (getAllQuestions() as $row) {
 
             $Question = $row['Question'];
             $Input1 = $row['Input1'];
@@ -53,10 +42,9 @@
 
             $i++;
         }
-        mysqli_close($link);
     ?>
 </form>
-    <button id="submitButton" type="submit">Submit</button>
+<button id="submitButton" type="submit">Submit</button>
 
 <script src="ajaxUtilities.js"></script>
 <script>
@@ -77,12 +65,11 @@
             parametersObject["points" + i] = points;
         }
         var queryString = createQueryParametersString(parametersObject);
-        console.log(queryString);
-        sendPostRequest("../middle/create_exam.php", queryString, onReponse);
+        sendPostRequest("../middle/create_exam.php", queryString, onResponse);
     }
 
-    function getCheckedBoxes(checkkboxName) {
-        var checkboxes = document.getElementsByName(checkkboxName);
+    function getCheckedBoxes(checkboxName) {
+        var checkboxes = document.getElementsByName(checkboxName);
         var checkedBoxes = [];
         for (var i=0; i<checkboxes.length; i++) {
             if (checkboxes[i].checked) {
@@ -92,7 +79,7 @@
         return checkedBoxes;
     }
 
-    function onReponse() {
+    function onResponse() {
 
     }
 
