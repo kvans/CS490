@@ -44,7 +44,7 @@
 </ul>
 <div class="container">
     <form class="form-signin" name="login" id="login-form" accept-charset="utf-8">
-        <h2 class="form-signin-heading">Pease Sign In</h2>
+        <h2 class="form-signin-heading">Please Sign In</h2>
         <input type="text" id="username" name="username" placeholder="Username"
         class="form-control" required><br>
         <input type="password" id="password" name="password" placeholder="Password"
@@ -73,7 +73,7 @@
     }
 
     function onLoginResponse(data) {
-        if (data.target.readyState == 4) {
+        if (data.target.readyState === 4) {
             var response = JSON.parse(data.target.response);
             if (response.isValid === "true") {
                 window.location.replace(response.url);
