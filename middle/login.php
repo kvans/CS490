@@ -16,6 +16,7 @@ $password = $_POST["password"];
 
 if (isValidLogin($username, $password)) {
     session_start();
+    $_SESSION["username"] = $username;
     if (getLoginRole($username) == "t"){
         echo '{ "isValid": "true", "url": "../frontend/instructorL.php" }';
     }
