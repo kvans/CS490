@@ -59,17 +59,6 @@ function getAllQuestions() {
     return $rows;
 }
 
-function DisplayExam($name){
-    $link = connectToDatabase();
-     $query = mysqli_query($link,"SELECT Question FROM `".$name."`");
-     //$info = array();
-     while($oe = mysqli_fetch_assoc($query)) {
-         $info[] = $oe;
-     }
-     return $info;
-
-}
-
 //INSERT $NAME of exam that teacher created
 //INSERT $STUDENT the name of the exam created in function TAKEEXAM
 // INSERT an array with with QID's from createOE, which are on the exam
@@ -94,6 +83,7 @@ function GetQuestionandAnswer($name, $student, $arraytest){
 
     mysqli_close($link);
 }
+
 //INSERT an $array of the students inputs
 //Insert $name of table that is created in Takeexam function
 //INSERT $questionid from table that is created in takeexam function
@@ -103,7 +93,7 @@ function AddStudentsAns($array, $student, $qid){
         //"INSERT INTO ".$student."(StudAnswer, StudAnswer2, StudAnswer3) VALUES ('$array[0]','$array[1]','$array[2]'
     //"UPDATE ".$student." SET StudAnswer = '$array[0]', StudAnswer2 = '$array[1]', StudAnswer3 = '$array[2]' WHERE QuestionID =  '$qid'"
 
-mysqli_close($link);    
+mysqli_close($link);
 }
 
 //Insert $arrayquestions - Array of QIDS from STUDENT EXAM TABLE ex:If you were looking at NIARAN table in phpmyadmin you would send me an arrray cosisting of 1,2,3
@@ -135,13 +125,13 @@ function CompareAns($arrayquestions, $student){
 
 //Insert $student - Student exam name
 //Insert $arrays - Arrays of QID from Exam Table or StudentExam table EX:Niaran or Niaranexam
-function CalculateGrade($student,$arrays){
+function CalculateGrade($student,$arrays) {
     $link = connectToDatabase();
     $query = mysqli_query($link, "SELECT QuestionID FROM ".$student." ORDER BY QuestionID DESC LIMIT 1");
     $fetch =mysqli_fetch_array($query);
     $TotalNumberQuestions = $fetch[0] * 3;
     $point = "";
-    foreach($arrays as $arr){
+    foreach($arrays as $arr) {
         $query = mysqli_query($link, "SELECT Points FROM ".$student." WHERE QuestionID = '$arr'");
         $fetch = mysqli_fetch_assoc($query);
         $point += $fetch["Points"] * 100;
@@ -151,9 +141,6 @@ function CalculateGrade($student,$arrays){
     return $Grade;
 }
 
-// Creates a new exam in the database by adding an entry
-// with the exam name in the Exams table and adding the
-// given questions to the ExamsQuestions table.
 function createExam($examName, $qidsPoints2DArray) {
     $link = connectToDatabase();
     mysqli_query($link, "INSERT INTO Exams (ExamName) VALUES('$examName')");
@@ -164,4 +151,40 @@ function createExam($examName, $qidsPoints2DArray) {
         mysqli_query($link, "INSERT INTO ExamsQuestions(EID, QID, Points) VALUES ('$EID','$qid[0]', '$qid[1]')");
     }
      mysqli_close($link);
+}
+
+class ExamQuestion {
+    public $qid;
+    public $points;
+    public $question;
+    public $difficulty;
+}
+
+print_r(getExamQuestions("9"));
+
+function getExamQuestions($eid) {
+    $returnExamQuestions = array();
+    global $examsQuestionsTable;
+    $link = connectToDatabase();
+    $query = "SELECT * FROM $examsQuestionsTable WHERE EID = '$eid'";
+    $result = mysqli_query($link, $query);
+    while ($row = mysqli_fetch_array($result)) {
+        $examQuestion = new ExamQuestion();
+        $qid = $row["QID"];
+        $roww = getRowFromQuestionsTable($qid);
+        $examQuestion -> qid        = $qid;
+        $examQuestion -> points     = $row["Points"];
+        $examQuestion -> question   = $roww["Question"];
+        $examQuestion -> difficulty = $roww["Difficulty"];
+        array_push($returnExamQuestions, $examQuestion);
+    }
+    return $returnExamQuestions;
+}
+
+function getRowFromQuestionsTable($qid) {
+    global $questionsTable;
+    $link = connectToDatabase();
+    $query = "SELECT * FROM $questionsTable WHERE QID = '$qid'";
+    $result = mysqli_query($link, $query);
+    return mysqli_fetch_array($result);
 }
