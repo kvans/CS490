@@ -160,8 +160,6 @@ class ExamQuestion {
     public $difficulty;
 }
 
-print_r(getExamQuestions("9"));
-
 function getExamQuestions($eid) {
     $returnExamQuestions = array();
     global $examsQuestionsTable;
@@ -171,11 +169,11 @@ function getExamQuestions($eid) {
     while ($row = mysqli_fetch_array($result)) {
         $examQuestion = new ExamQuestion();
         $qid = $row["QID"];
-        $roww = getRowFromQuestionsTable($qid);
+        $questionRow = getRowFromQuestionsTable($qid);
         $examQuestion -> qid        = $qid;
         $examQuestion -> points     = $row["Points"];
-        $examQuestion -> question   = $roww["Question"];
-        $examQuestion -> difficulty = $roww["Difficulty"];
+        $examQuestion -> question   = $questionRow["Question"];
+        $examQuestion -> difficulty = $questionRow["Difficulty"];
         array_push($returnExamQuestions, $examQuestion);
     }
     return $returnExamQuestions;
