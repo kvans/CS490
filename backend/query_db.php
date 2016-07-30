@@ -188,3 +188,20 @@ function getRowFromQuestionsTable($qid) {
     $result = mysqli_query($link, $query);
     return mysqli_fetch_array($result);
 }
+function putStudentsAnswersInTable($QIDs,$arrayofAnswers,$SID, $EID){
+    $link = connectToDatabase(); 
+    for($i = 0; $i < sizeof($QIDs); $i++){
+        $insert = mysqli_query($link, "INSERT INTO StudentsAnswers(SID, EID, QID, AnswerCode) VALUES ('$SID','$EID','$QIDs[$i]','$arrayofAnswers[$i]')");
+    }
+}
+function getTeachersAnswer($qids){
+    $link = connectToDatabase(); 
+    foreach($qids as $qid){
+        $query = mysqli_query($link, "SELECT Correct1, Correct2, Correct3 FROM Questions WHERE QID = '$qid'");
+        while($row = mysqli_fetch_array($query)){
+            print_r($row);
+        }      
+    }
+    return $fetch;
+    
+}
