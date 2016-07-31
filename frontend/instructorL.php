@@ -3,37 +3,59 @@
 <head>
 <title>Welcome Instructor</title>
 <style> 
-    div.feature {
-        position: relative;
-    }
-    div.feature a{
-        display: block;
-        margin: auto;
-        border-style: solid;
-        background-color: lightblue;
-        width: 100px;
-        height: 100%;
-        text-decoration: none;
-        z-index: 10;
-    }
+        ul {    
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden; 
+                background-color: #333;
+        }
+        li {
+                float: left;
+                border-right: 1px solid #bbb;
+        }
+        li:last-child {
+                border-right: none;
+        }
+        li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+        }
+        li a:hover {
+                background-color: #111;
+        }
+        .button {
+                background-color: #4CAF50;
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;                
+                cursor: pointer;
+        }
 </style>
 </head>
-<h1 align="center">Welcome Instructor</h1>
-    <body>
-        <div class="feature">
-            <a href="addQuestion.html">Add a Question</a>
-        </div>
+<body>
+        <ul>
+                <li><a href="">Examination Nation</a></li>
+                <li><a href="">About</a></li>
+                <li style="float: right"><a href="../middle/logout.php">Logout</a></li>
+        </ul>
+        <div class="container">
+        <h1 align="center">Welcome Instructor</h1>
+            <center><a href="addQuestion.html" class="button">Add a Question</a></center>
         <br>
-        <div class="feature">
-            <a href="viewQuestions.php">View Question Bank</a>
-        </div>
+            <center><a href="viewQuestions.php" class="button">View Question Bank</a></center>
         <br>
-        <div class="feature">
-            <a href="examCreation.php">Create Exam</a>
-        </div>
+            <center><a href="examCreation.php" class="button">Create Exam</a></center>
         <br>
-        <div class="feature">
-            <a href="">View Existing Exams</a>
+            <center><a href="" class="button">View Existing Exams</a></center>
         </div>
-    </body>
+</body>
 </html>
