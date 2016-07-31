@@ -217,3 +217,11 @@ function getTeachersAnswer($qids){
     }
     return $fetch;
 }
+function inputPointsintoStudentAnswers($eid, $sid, $qids, $arrayOfPoints){
+    $link = connectToDatabase();
+    for($i = 0; $i < sizeof($qids); $i++){
+        $insert = mysqli_query($link, "UPDATE StudentAnswers SET Points = '$arrayofPoints[$i]'" 
+        . "WHERE EID = '$eid' AND SID = '$sid' AND QID = '$qids[$i]'");
+    }
+    mysqli_close($link);
+}
