@@ -66,9 +66,6 @@
         ?>
     </div>
 
-    <br>
-    <center><a href="" class="button">View Results</a></center>
-
 <script src="../frontend/ajaxUtilities.js"></script>
 <script>
 
