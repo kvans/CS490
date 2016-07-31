@@ -47,7 +47,6 @@ function createNewQuestion($Question, $Input1, $Input2, $Input3, $Correct1, $Cor
     mysqli_close($link);
 }
 
-
 function getExamsTableRows() {
     global $examsTable;
     $link = connectToDatabase();
@@ -169,6 +168,19 @@ function getAllQuestions() {
     $result = mysqli_query($link, $query);
     $rows = array();
     while ($row = mysqli_fetch_array($result)) {
+        array_push($rows, $row);
+    }
+    return $rows;
+}
+
+function getStudentAnswersRows($sid, $eid) {
+    global $studentsAnswersTable;
+    $link = connectToDatabase();
+    $query = "SELECT * FROM $studentsAnswersTable " .
+             "WHERE SID = $sid AND EID = $eid";
+    $results = mysqli_query($link, $query);
+    $rows = array();
+    while ($row = mysqli_fetch_array($results)) {
         array_push($rows, $row);
     }
     return $rows;
