@@ -1,3 +1,5 @@
+<?php session_start() ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,8 +78,10 @@
     }
 
     function onExamButtonClicked(event) {
-        var eid = event.target.getAttribute("value");
-        var queryString = createQueryParametersString({ "eid": eid });
+        var queryString = createQueryParametersString({
+            "eid": event.target.getAttribute("value"),
+            "sid": "<?php echo $_SESSION["username"] ?>"
+        });
         sendPostRequest("../middle/hasStudentTakenExam.php", queryString, onResponse);
     }
 
