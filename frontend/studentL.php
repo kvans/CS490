@@ -75,10 +75,10 @@
     var examButtons = document.getElementsByClassName("examButton");
     for (var i = 0; i < examButtons.length; i++) {
         var examButton = examButtons[i];
-        examButton.addEventListener("click", onExamButtonClickedd);
+        examButton.addEventListener("click", onExamButtonClicked);
     }
 
-    function onExamButtonClickedd(event) {
+    function onExamButtonClicked(event) {
         var eid = event.target.getAttribute("value");
         var queryString = createQueryParametersString({ "eid": eid });
         sendPostRequest("../middle/hasStudentTakenExam.php", queryString, onResponse);
@@ -88,17 +88,11 @@
         if (data.target.readyState === 4) {
             var response = JSON.parse(data.target.response);
             if (response.tookExam === "true") {
-                window.location.replace("takeExam.php?eid=" + response.eid);
+                window.location.replace("viewStudentExam.php?eid=" + response.eid);
             } else {
                 window.location.replace("takeExam.php?eid=" + response.eid);
             }
         }
-    }
-
-    function onExamButtonClicked(event) {
-        var eid = event.target.getAttribute("value");
-        var queryObject = { "eid": eid };
-        var queryString = createQueryParametersString(queryObject);
     }
 
 </script>
