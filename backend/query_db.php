@@ -269,3 +269,12 @@ function insertTrueIntoExamReleased($eid, $sid){
         $insert = mysqli_query($link, "UPDATE isExamReleased SET isReleased = '1' WHERE SID = '$sid' AND EID = '$eid'");
     }
 }
+function isExamReleased($eid, $sid){
+    $link = connectToDatabase();
+    $check = mysqli_query($link, "SELECT isReleased FROM isExamReleased WHERE SID = '$sid' AND EID = '$eid'");
+    $getCheck = mysqli_fetch_assoc($check);
+    $fetch = $getCheck['isReleased'];
+    if($fetch == 1){return true;}
+    else {return false;}
+    mysqli_close($link);
+}
