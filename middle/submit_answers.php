@@ -25,9 +25,9 @@ for ($i = 0; $i < $argc; $i++) {
 
     $points = ($casesPassed / 3) * getPointsForExamQuestion($eid, $qid);
     putStudentAnswerAndPointsInTable($sid, $eid, $qid, $code, $points);
-
-    echo "Points for question: " . $points . "\n";
 }
+
+echo ' { "successful": "true" } ';
 
 // TODO Fix assumption that function is called "answer()"
 function isCodeCorrectForQuestionTestCase($qid, $caseNum, $code) {

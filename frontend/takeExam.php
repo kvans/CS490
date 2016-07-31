@@ -53,12 +53,17 @@
             postObject["answer" + i] = answer;
         }
         var queryString = JSON.stringify(postObject);
+        console.log(queryString);
         sendPostRequest("../middle/submit_answers.php", queryString, onResponse);
     }
 
     function onResponse(data) {
         if (data.target.readyState === 4) {
             console.log(data.target.response);
+            var response = JSON.parse(data.target.response);
+            if (response.successful) {
+                window.location.replace("./studentL.php");
+            }
         }
     }
 
