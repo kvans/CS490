@@ -6,20 +6,21 @@
 
 include "../backend/query_db.php";
 
-$qid = $_POST["qid"];
-$program = $_POST["program"];
+$eid = $_POST["eid"];
+$sid = $_POST["sid"];
+$argc = (int) $_POST["argc"];
 
-$output = shell_exec("python -c \"" . $program . "\"" );
-echo $output;
-
-$numOfQuestions = $_POST["numOfQuestions"];
-
-for ($i = 0; $i < $numOfQuestions; $i++) {
-    $qid = $_POST["qid" . $i];
-
+$qids = array();
+$answers = array();
+for ($i = 0; $i < $argc; $i++) {
+    array_push($qids, $_POST["qid$i"]);
+    array_push($answers, $answer = $_POST["answer$i"]);
 }
 
 
+
+$answer0 = $_POST["answer0"];
+echo shell_exec("python -c \"$answer0\"");
 
 function checkStudentAnswer($sid, $eid, $qid) {
 

@@ -26,7 +26,7 @@
 
             echo "<div>";
             echo
-            "<input type=\"checkbox\" id=\"qid$i\" name=\"qid\" value=\"$QID\">
+            "<input id=\"qid$i\" type=\"checkbox\"  name=\"qid\" value=\"$QID\">
             <fieldset><b>$Question</b>
                 <br><br>
                 <b>$Input1:</b>$Correct1
@@ -71,7 +71,7 @@
     function getCheckedBoxes(checkboxName) {
         var checkboxes = document.getElementsByName(checkboxName);
         var checkedBoxes = [];
-        for (var i=0; i<checkboxes.length; i++) {
+        for (var i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].checked) {
                 checkedBoxes.push(checkboxes[i]);
             }
