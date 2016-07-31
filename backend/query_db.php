@@ -256,7 +256,7 @@ function didStudentTakeExam($eid, $sid){
     $query = mysqli_query($link, "SELECT AnswerCode FROM StudentsAnswers WHERE SID = '$sid' AND EID = '$eid'");
     $fetc = array();
     while ($row = mysqli_fetch_assoc($query)) {
-        $fetch = $row['StudentsAnswers'];
+        $fetch = $row['AnswerCode'];
         array_push($fetc, $fetch);
         if($fetc != null){return true;}
     }
