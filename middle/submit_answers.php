@@ -16,34 +16,31 @@ $argc = (int) $postedJson["argc"];
 
 for ($i = 0; $i < $argc; $i++) {
     $qid = $postedJson["qid$i"];
-    $answer = $postedJson["answer$i"];
-
-    $isFirstCorrect  = isCodeCorrectForQuestionTestCase($qid, 1, $answer);
-    $isSecondCorrect = isCodeCorrectForQuestionTestCase($qid, 2, $answer);
-    $isThirdCorrect  = isCodeCorrectForQuestionTestCase($qid, 3, $answer);
+    $code = $postedJson["answer$i"];
 
     $casesPassed = 0;
-    if ($isFirstCorrect)  { $casesPassed++; }
-    if ($isSecondCorrect) { $casesPassed++; }
-    if ($isThirdCorrect)  { $casesPassed++; }
+    if (isCodeCorrectForQuestionTestCase($qid, 1, $code)) { $casesPassed++; }
+    if (isCodeCorrectForQuestionTestCase($qid, 2, $code)) { $casesPassed++; }
+    if (isCodeCorrectForQuestionTestCase($qid, 3, $code)) { $casesPassed++; }
 
-    $pointsForExamQuestion = getPointsForExamQuestion($eid, $qid);
-    $pointsForExamQuestion *= ($casesPassed / 3);
+    $points = ($casesPassed / 3) * getPointsForExamQuestion($eid, $qid);
+    putStudentAnswerAndPointsInTable($sid, $eid, $qid, $code, $points);
 
-    echo "Points for question: " . $pointsForExamQuestion . "\n";
-
+    echo "Points for question: " . $points . "\n";
 }
 
 // TODO Fix assumption that function is called "answer()"
 function isCodeCorrectForQuestionTestCase($qid, $caseNum, $code) {
     $questionRow = getRowFromQuestionsTable($qid);
-    $expectedOutput = (string) $questionRow["Correct$caseNum"];
+    $expectedOutput = $questionRow["Correct$caseNum"];
     $expectedOutput = trim($expectedOutput);
 
-    $args = $questionRow["Input$caseNum"];
+    $function= "answer";
+    $arguments = $questionRow["Input$caseNum"];
     $code .= "\n";
-    $code .= "answer($args)";
-    $actualOutput = (string) shell_exec("python -c \"$code\"");
+    $code .= "print( $function($arguments) )";
+
+    $actualOutput = shell_exec("python -c \"$code\"");
     $actualOutput = trim($actualOutput);
 
     return $expectedOutput == $actualOutput;

@@ -184,6 +184,7 @@ function getRowFromQuestionsTable($qid) {
     $link = connectToDatabase();
     $query = "SELECT * FROM $questionsTable WHERE QID = '$qid'";
     $result = mysqli_query($link, $query);
+    mysqli_close($link);
     return mysqli_fetch_array($result);
 }
 
@@ -193,15 +194,19 @@ function getPointsForExamQuestion($eid, $qid) {
     $query = "SELECT * FROM $examsQuestionsTable " .
              "WHERE EID = $eid AND QID = $qid";
     $result = mysqli_query($link, $query);
+    mysqli_close($link);
     return mysqli_fetch_array($result)["Points"];
 }
 
-function putStudentsAnswersInTable($QIDs,$arrayofAnswers,$SID, $EID){
-    $link = connectToDatabase(); 
-    for($i = 0; $i < sizeof($QIDs); $i++){
-        $insert = mysqli_query($link, "INSERT INTO StudentsAnswers(SID, EID, QID, AnswerCode) VALUES ('$SID','$EID','$QIDs[$i]','$arrayofAnswers[$i]')");
-    }
+function putStudentAnswerAndPointsInTable($sid, $eid, $qid, $code, $points) {
+    global $studentsAnswersTable;
+    $link = connectToDatabase();
+    $query = "INSERT INTO $studentsAnswersTable(SID, EID, QID, AnswerCode, Points) " .
+             "VALUES ('$sid', '$eid', '$qid', '$code', '$points')";
+    mysqli_query($link, $query);
+    mysqli_close($link);
 }
+
 function getTeachersAnswer($qids){
     $link = connectToDatabase(); 
     foreach($qids as $qid){
@@ -211,5 +216,4 @@ function getTeachersAnswer($qids){
         }      
     }
     return $fetch;
-    
 }
