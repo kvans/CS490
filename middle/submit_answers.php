@@ -29,13 +29,12 @@ for ($i = 0; $i < $argc; $i++) {
 
 echo ' { "successful": "true" } ';
 
-// TODO Fix assumption that function is called "answer()"
 function isCodeCorrectForQuestionTestCase($qid, $caseNum, $code) {
     $questionRow = getRowFromQuestionsTable($qid);
     $expectedOutput = $questionRow["Correct$caseNum"];
     $expectedOutput = trim($expectedOutput);
 
-    $function= "answer";
+    $function= $questionRow["FunctionName"];
     $arguments = $questionRow["Input$caseNum"];
     $code .= "\n";
     $code .= "print( $function($arguments) )";
