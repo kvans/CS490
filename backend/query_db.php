@@ -151,6 +151,7 @@ function createExam($examName, $qidsPoints2DArray) {
     foreach ($qidsPoints2DArray as $qid) {
         mysqli_query($link, "INSERT INTO ExamsQuestions(EID, QID, Points) VALUES ('$EID','$qid[0]', '$qid[1]')");
     }
+    populateIsReleasedTableForExams($EID);
      mysqli_close($link);
 }
 
