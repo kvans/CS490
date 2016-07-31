@@ -231,3 +231,40 @@ function getTeachersAnswer($qids){
     }
     return $fetch;
 }
+function getAllStudentIDs(){
+    $link = connectToDatabase();
+    $collectSIDs = mysqli_query($link, "SELECT User_ID FROM LogIn WHERE Role = 's'");
+    $SIDs = array();
+    while($rows = mysqli_fetch_assoc($collectSIDs)){
+        $fetch = $rows['User_ID'];
+        array_push($SIDs, $fetch);
+    }
+    return $SIDs;
+}
+function populateIsReleasedTableForExams($eid){
+    $link = connectToDatabase();
+    $SIDs = getAllStudentIDs();
+    
+    for($i = 0; $i < sizeof($SIDs); $i++){
+        $sid = $SIDs[$i];
+        $insert = mysqli_query($link, "INSERT INTO isExamReleased(EID, SID) VALUES('$eid', '$SIDs[$i]')");
+    }
+}
+function didStudentTakeExam($eid, $sid){
+    $link = connectToDatabase();
+    $query = mysqli_query($link, "SELECT AnswerCode FROM StudentsAnswers WHERE SID = '$sid' AND EID = '$eid'");
+    $fetc = array();
+    while ($row = mysqli_fetch_assoc($query)) {
+        $fetch = $row['StudentsAnswers'];
+        array_push($fetc, $fetch);
+        if($fetc != null){return true;}
+    }
+    return false;
+}
+function insertTrueIntoExamReleased($eid, $sid){
+    $link = connectToDatabase();
+    $checkIfTrue = didStudentTakeExam($eid, $sid);
+    if($checkIfTrue == 1){
+        $insert = mysqli_query($link, "UPDATE isExamReleased SET isReleased = '1' WHERE SID = '$sid' AND EID = '$eid'");
+    }
+}
