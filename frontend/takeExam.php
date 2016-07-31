@@ -5,8 +5,6 @@
 
 <head>
     <title>Take Exam</title>
-    <meta name='username'
-          content='<?php echo $_SESSION["username"] ?>' />
 </head>
 <body>
 
@@ -16,9 +14,12 @@
     include "../backend/query_db.php";
 
     $i = 0;
-    foreach (getAllQuestions() as $question){
-        $Question = $question['Question'];
-        $QID = $question['QID'];
+    $eid = $_GET["eid"];
+    foreach (getExamQuestionsRows($eid) as $examRow) {
+        $qid = $examRow -> qid;
+        $questionTableRow = getRowFromQuestionsTable($qid);
+        $Question = $questionTableRow['Question'];
+        $QID = $questionTableRow['QID'];
 
         echo "<div id='$QID' class='answerDiv'>";
         echo "    <b>$Question</b> <br/>";
@@ -42,8 +43,8 @@
     function onExamSubmission() {
         var answerDivs = document.getElementsByClassName("answerDiv");
         var postObject = {
-            "eid": "9", // TODO Swap this out for variable eid
-            "sid": document.getElementsByTagName("meta")[0].getAttribute("content"),
+            "eid": "<?php echo $_GET["eid"] ?>",
+            "sid": "<?php echo $_SESSION["username"] ?>",
             "argc": answerDivs.length
         };
         for (var i = 0; i < answerDivs.length; i++) {
@@ -53,13 +54,11 @@
             postObject["answer" + i] = answer;
         }
         var queryString = JSON.stringify(postObject);
-        console.log(queryString);
         sendPostRequest("../middle/submit_answers.php", queryString, onResponse);
     }
 
     function onResponse(data) {
         if (data.target.readyState === 4) {
-            console.log(data.target.response);
             var response = JSON.parse(data.target.response);
             if (response.successful) {
                 window.location.replace("./studentL.php");

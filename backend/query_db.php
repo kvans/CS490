@@ -47,26 +47,16 @@ function createNewQuestion($Question, $Input1, $Input2, $Input3, $Correct1, $Cor
     mysqli_close($link);
 }
 
-function getAllQuestions() {
-    global $questionsTable;
+
+function getExamsTableRows() {
+    global $examsTable;
     $link = connectToDatabase();
-    $query = "SELECT * FROM $questionsTable";
-    $result = mysqli_query($link, $query);
+    $result = mysqli_query($link, "SELECT EID, ExamName FROM $examsTable");
     $rows = array();
     while ($row = mysqli_fetch_array($result)) {
         array_push($rows, $row);
     }
     return $rows;
-}
-function DisplayEIDs() {
-        global $examsTable;
-        $link = connectToDatabase();
-        $rows = mysqli_query($link, "SELECT EID, ExamName FROM $examsTable");
-        while ($row = mysqli_fetch_row($rows)) {
-                $oe[] = $row;
-        }
-        mysqli_close($link);
-        return $oe;
 }
 
 
@@ -171,12 +161,24 @@ class ExamQuestion {
     public $difficulty;
 }
 
-function getExamQuestions($eid) {
-    $returnExamQuestions = array();
+function getAllQuestions() {
+    global $questionsTable;
+    $link = connectToDatabase();
+    $query = "SELECT * FROM $questionsTable";
+    $result = mysqli_query($link, $query);
+    $rows = array();
+    while ($row = mysqli_fetch_array($result)) {
+        array_push($rows, $row);
+    }
+    return $rows;
+}
+
+function getExamQuestionsRows($eid) {
     global $examsQuestionsTable;
     $link = connectToDatabase();
     $query = "SELECT * FROM $examsQuestionsTable WHERE EID = '$eid'";
     $result = mysqli_query($link, $query);
+    $returnExamQuestions = array();
     while ($row = mysqli_fetch_array($result)) {
         $examQuestion = new ExamQuestion();
         $qid = $row["QID"];
@@ -187,6 +189,7 @@ function getExamQuestions($eid) {
         $examQuestion -> difficulty = $questionRow["Difficulty"];
         array_push($returnExamQuestions, $examQuestion);
     }
+    mysqli_close($link);
     return $returnExamQuestions;
 }
 
