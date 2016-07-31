@@ -58,6 +58,17 @@ function getAllQuestions() {
     }
     return $rows;
 }
+function DisplayEIDs() {
+        global $examsTable;
+        $link = connectToDatabase();
+        $rows = mysqli_query($link, "SELECT EID, ExamName FROM $examsTable");
+        while ($row = mysqli_fetch_row($rows)) {
+                $oe[] = $row;
+        }
+        mysqli_close($link);
+        return $oe;
+}
+
 
 //INSERT $NAME of exam that teacher created
 //INSERT $STUDENT the name of the exam created in function TAKEEXAM
