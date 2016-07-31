@@ -186,6 +186,16 @@ function getRowFromQuestionsTable($qid) {
     $result = mysqli_query($link, $query);
     return mysqli_fetch_array($result);
 }
+
+function getPointsForExamQuestion($eid, $qid) {
+    global $examsQuestionsTable;
+    $link = connectToDatabase();
+    $query = "SELECT * FROM $examsQuestionsTable " .
+             "WHERE EID = $eid AND QID = $qid";
+    $result = mysqli_query($link, $query);
+    return mysqli_fetch_array($result)["Points"];
+}
+
 function putStudentsAnswersInTable($QIDs,$arrayofAnswers,$SID, $EID){
     $link = connectToDatabase(); 
     for($i = 0; $i < sizeof($QIDs); $i++){

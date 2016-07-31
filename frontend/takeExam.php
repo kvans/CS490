@@ -52,7 +52,7 @@
             postObject["qid" + i] = qid;
             postObject["answer" + i] = answer;
         }
-        var queryString = createQueryParametersString(postObject);
+        var queryString = JSON.stringify(postObject);
         sendPostRequest("../middle/submit_answers.php", queryString, onResponse);
     }
 
