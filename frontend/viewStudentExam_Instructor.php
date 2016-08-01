@@ -39,6 +39,11 @@
     </style>
 </head>
 <body>
+    <ul>
+        <li><a href="instructorL.php">Examination Nation</a></li>
+        <li><a href="">About</a></li>
+        <li style="float: right"><a href="../middle/logout.php">Logout</a></li>
+    </ul>
 
 <?php
 include "../backend/query_db.php";

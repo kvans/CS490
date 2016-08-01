@@ -5,9 +5,14 @@
 
 <head>
     <title>Take Exam</title>
+    <link rel="stylesheet" type="text/css" href="boxedStylesheet.css">
 </head>
 <body>
-
+    <ul>
+        <li><a href="studentL.php">Examination Nation</a></li>
+        <li><a href="">About</a></li>
+        <li style="float: right"><a href="../middle/logout.php">Logout</a></li>
+    </ul>
 <b><center>Good Luck on the Exam</center></b> <br/>
 
 <?php
