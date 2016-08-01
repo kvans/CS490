@@ -21,6 +21,10 @@
         pre {
             margin: 0;
         }
+        textarea {
+            width: 350px;
+            height: 65px;
+        }
         #totalPoints {
             position: absolute;
             top: 0;
@@ -39,11 +43,6 @@
     </style>
 </head>
 <body>
-    <ul>
-        <li><a href="instructorL.php">Examination Nation</a></li>
-        <li><a href="">About</a></li>
-        <li style="float: right"><a href="../middle/logout.php">Logout</a></li>
-    </ul>
 
 <?php
 include "../backend/query_db.php";
@@ -52,23 +51,24 @@ $sid = $_GET["sid"];
 $eid = $_GET["eid"];
 
 $examName = getExamNameGivenEid($eid);
-//$points = calculateStudentsTotalExamGrade()
+$points = round(100 * calculateStudentsTotalExamGrade($eid, $sid));
 echo "<h1>$examName</h1>";
-echo "<h1 id='totalPoints'>Points: %</h1>";
+echo "<h1 id='totalPoints'>Points: $points%</h1>";
 
 foreach (getStudentAnswersRows($sid, $eid) as $answerRow) {
     $qid = $answerRow["QID"];
     $question = getQuestionTextGivenQid("qid");
     $answerCode = $answerRow["AnswerCode"];
     $studentPoints = $answerRow["Points"];
-    $totalPoints = "100";
+    $totalQuestionPoints = getPointsPerQuestion($eid, $qid);
     $comment = $answerRow["Comment"];
 
     echo "<p>$question</p>";
     echo "<div class='questionBox'>";
     echo "    <pre>$answerCode</pre>";
-    echo "    <p class='points'>$studentPoints/$totalPoints</p>";
-    echo "    <textarea></textarea>";
+    echo "    <p class='points'>$studentPoints/$totalQuestionPoints</p>";
+    echo "    <p>Instructor Comments</p>";
+    echo "    <textarea id='comment$qid' $qid' class='comment'></textarea>";
     echo "</div>";
     echo "<br/>";
 }
@@ -82,11 +82,20 @@ foreach (getStudentAnswersRows($sid, $eid) as $answerRow) {
     releaseButton.addEventListener("click", onReleaseButtonClick);
 
     function onReleaseButtonClick(event) {
+        releaseExam();
+        submitInstructorsComments();
+    }
+
+    function releaseExam() {
         var queryString = createQueryParametersString({
             eid: "<?php echo $_GET["eid"]; ?>",
             sid: "<?php echo $_GET["sid"]; ?>"
         });
         sendPostRequest("../middle/releaseExam.php", queryString, null);
+    }
+
+    function submitInstructorsComments() {
+
     }
 
 </script>
