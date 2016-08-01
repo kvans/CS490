@@ -321,3 +321,10 @@ function addInstructorCommentForExamAnswer($eid, $sid, $qid, $comment){
     $link = connectToDatabase();
     $insert = mysqli_query($link, "UPDATE StudentsAnswers SET Comment = '$comment' WHERE SID = '$sid' AND EID = '$eid' AND QID = '$qid'");
 }
+function getInstructorCommentFromStudentsAnswers($eid, $sid, $qid){
+    $link = connectToDatabase();
+    $selectComment = mysqli_query($link,"SELECT Comment FROM StudentsAnswers WHERE SID = '$sid' AND EID = '$eid' AND QID = '$qid'");
+    $row = mysqli_fetch_assoc($selectComment);
+    $getComment = $row['Comment'];
+    return $getComment;
+}
