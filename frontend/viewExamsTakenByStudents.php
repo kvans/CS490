@@ -23,7 +23,7 @@
 
 <div class='selectExam'>
     <?php
-        foreach (getAllStudentIDs() as $sid) {
+        foreach (getAllStudentsWhoTookExam($_GET["eid"]) as $sid) {
             echo "<button class='button' value='$sid'>$sid</button>";
             echo "<br/>";
         }
