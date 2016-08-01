@@ -319,17 +319,29 @@ function calculateTotalPointsForExam($eid){
     }
     return $fetch;
 }
+function getQIDsforCalculatingPoints($eid){
+    $link = connectToDatabase();
+    $selectQIDs =  mysqli_query($link, "SELECT QID FROM ExamsQuestions WHERE EID = '$eid'");
+    $qids = array();
+    while($row = mysqli_fetch_assoc($selectQIDs)){
+        $fetch = $row['QID'];
+        array_push($qids, $fetch);
+    }
+    return $qids;
+}
+
 function calculateTotalPointsForStudentExamAttempt($eid, $sid, $qid){
     $link = connectToDatabase();
     for($i = 0; $i < sizeof($qid); $i++){
-        $collectPoints = mysqli_query($link, "SELECT Points FROM StudentsAnswers WHERE SID = '$sid' AND EID = '$eid' AND QID = $qid[$i]");
+        $collectPoints = mysqli_query($link, "SELECT Points FROM StudentsAnswers WHERE SID = '$sid' AND EID = '$eid' AND QID = '$qid[$i]'");
         $rows = mysqli_fetch_assoc($collectPoints);
         $fetch += $rows['Points'];
     }
     return $fetch;
 }
-function calculateStudentsTotalExamGrade($eid, $sid, $qid){
+function calculateStudentsTotalExamGrade($eid, $sid){
     $link = connectToDatabase();
+    $qid = getQIDsforCalculatingPoints($eid);
     $totalPointsPossible = calculateTotalPointsForExam($eid);
     $studentsTotalPoints = calculateTotalPointsForStudentExamAttempt($eid, $sid, $qid);
     $finalGrade = $studentsTotalPoints / $totalPointsPossible;
