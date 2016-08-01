@@ -354,3 +354,16 @@ function getPointsPerQuestion($eid, $qid){
     $getPoints = $row['Points'];
     return $getPoints;
 }
+function getAllStudentsWhoTookExam($eid){
+    $link = connectToDatabase();
+    $SIDs = getAllStudentIDs();
+    $listOfStudents = array();
+    for($i = 0; $i < sizeof($SIDs); $i++){
+        $check = didStudentTakeExam($eid, $SIDs[$i]);
+        if($check){
+            array_push($listOfStudents, $SIDs[$i]);
+        }
+        
+    }
+    return $listOfStudents;
+}
