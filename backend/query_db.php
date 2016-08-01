@@ -37,12 +37,12 @@ function getLoginRole($User) {
     else{return "s";}
 }
 
-function createNewQuestion($Question, $Input1, $Input2, $Input3, $Correct1, $Correct2, $Correct3) {
+function createNewQuestion($FunctionName, $Question, $Input1, $Input2, $Input3, $Correct1, $Correct2, $Correct3, $Difficulty) {
     global $questionsTable;
     $link = connectToDatabase();
     $insertQuery= "INSERT INTO $questionsTable" .
-        " (Question, Input1, Input2, Input3, Correct1, Correct2, Correct3) VALUES " .
-        "('$Question', '$Input1', '$Input2', '$Input3', '$Correct1', '$Correct2', '$Correct3')";
+        " (FunctionName, Question, Input1, Input2, Input3, Correct1, Correct2, Correct3, Difficulty) VALUES " .
+        "('$FunctionName', '$Question', '$Input1', '$Input2', '$Input3', '$Correct1', '$Correct2', '$Correct3', '$Difficulty')";
     mysqli_query($link,$insertQuery);
     mysqli_close($link);
 }
