@@ -313,6 +313,7 @@ function calculateTotalPointsForExam($eid){
     $link = connectToDatabase();
     $collectPoints = mysqli_query($link, "SELECT Points FROM ExamsQuestions WHERE EID = '$eid'");
     $collect = array();
+    $fetch = null;
     while($rows = mysqli_fetch_assoc($collectPoints)){
         $fetch += $rows['Points'];
         //array_push()
@@ -332,6 +333,7 @@ function getQIDsforCalculatingPoints($eid){
 
 function calculateTotalPointsForStudentExamAttempt($eid, $sid, $qid){
     $link = connectToDatabase();
+    $fetch = null;
     for($i = 0; $i < sizeof($qid); $i++){
         $collectPoints = mysqli_query($link, "SELECT Points FROM StudentsAnswers WHERE SID = '$sid' AND EID = '$eid' AND QID = '$qid[$i]'");
         $rows = mysqli_fetch_assoc($collectPoints);
@@ -340,7 +342,6 @@ function calculateTotalPointsForStudentExamAttempt($eid, $sid, $qid){
     return $fetch;
 }
 function calculateStudentsTotalExamGrade($eid, $sid){
-    $link = connectToDatabase();
     $qid = getQIDsforCalculatingPoints($eid);
     $totalPointsPossible = calculateTotalPointsForExam($eid);
     $studentsTotalPoints = calculateTotalPointsForStudentExamAttempt($eid, $sid, $qid);
