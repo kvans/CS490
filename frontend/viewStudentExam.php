@@ -48,21 +48,24 @@
     $eid = $_GET["eid"];
 
     $examName = getExamNameGivenEid($eid);
+    $points = round(100 * calculateStudentsTotalExamGrade($eid, $sid));
     echo "<h1>$examName</h1>";
-    echo "<h1 id='totalPoints'>Points: 100%</h1>";
+    echo "<h1 id='totalPoints'>Points: $points%</h1>";
 
     foreach (getStudentAnswersRows($sid, $eid) as $answerRow) {
         $qid = $answerRow["QID"];
         $question = getQuestionTextGivenQid("qid");
         $answerCode = $answerRow["AnswerCode"];
         $studentPoints = $answerRow["Points"];
-        $totalPoints = "100";
+        $totalPoints = getPointsPerQuestion($eid, $qid);
         $comment = $answerRow["Comment"];
 
         echo "<p>$question</p>";
         echo "<div class='questionBox'>";
         echo "    <pre>$answerCode</pre>";
         echo "    <p class='points'>$studentPoints/$totalPoints</p>";
+        echo "    <p>Instructor Comment</p>";
+        echo "    <p>$comment</p>";
         echo "</div>";
         echo "<br/>";
     }
