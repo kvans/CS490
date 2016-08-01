@@ -58,6 +58,25 @@ function getExamsTableRows() {
     return $rows;
 }
 
+function getExamNameGivenEid($eid) {
+    global $examsTable;
+    $link = connectToDatabase();
+    $query = "SELECT ExamName FROM $examsTable " .
+             "WHERE EID = $eid";
+    $result = mysqli_query($link, $query);
+    mysqli_close($link);
+    return mysqli_fetch_assoc($result)["ExamName"];
+}
+
+function getQuestionTextGivenQid($qid) {
+    global $questionsTable;
+    $link = connectToDatabase();
+    $query = "SELECT Question FROM $questionsTable " .
+             "WHERE QID = $qid";
+    $result = mysqli_query($link, $query);
+    mysqli_close($link);
+    return mysqli_fetch_assoc($result)["Question"];
+}
 
 //INSERT $NAME of exam that teacher created
 //INSERT $STUDENT the name of the exam created in function TAKEEXAM
@@ -177,7 +196,7 @@ function getStudentAnswersRows($sid, $eid) {
     global $studentsAnswersTable;
     $link = connectToDatabase();
     $query = "SELECT * FROM $studentsAnswersTable " .
-             "WHERE SID = $sid AND EID = $eid";
+             "WHERE SID = '$sid' AND EID = $eid";
     $results = mysqli_query($link, $query);
     $rows = array();
     while ($row = mysqli_fetch_array($results)) {
