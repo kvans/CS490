@@ -3,6 +3,11 @@
 <head>
     <title>Create Exam</title>
     <link rel="stylesheet" type="text/css" href="boxedStylesheet.css">
+<style>
+    fieldset {
+        background-color: white;
+    }
+</style>
 </head>
 <body>
     <ul>
@@ -14,7 +19,7 @@
     <?php
         include "../backend/query_db.php";
 
-        echo "<b><center>Select Exam Questions</center></b><br><br>";
+        echo "<h1 align=\"center\">Select Exam Questions</h1><br><br>";
         echo "<b>Name of Exam: </b>";
         echo "<input type=\"text\" id=\"examName\" name=\"examName\"><br><br>";
 
@@ -42,7 +47,7 @@
                 <b>$Input3:</b>$Correct3
                 <br>
             </fieldset>
-            <input type=\"number\" class=\"points\" name=\"points\">";
+            Point Value: <input type=\"number\" class=\"points\" name=\"points\">";
             echo "<br><br>";
             echo "</div>";
 
@@ -50,7 +55,7 @@
         }
     ?>
 </form>
-<button id="submitButton" type="submit">Submit</button>
+<button class="submitButton" id="submitButton" type="submit">Submit</button>
 
 <script src="ajaxUtilities.js"></script>
 <script>
