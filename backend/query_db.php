@@ -290,3 +290,34 @@ function isExamReleased($eid, $sid){
     else {return false;}
     mysqli_close($link);
 }
+function calculateTotalPointsForExam($eid){
+    $link = connectToDatabase();
+    $collectPoints = mysqli_query($link, "SELECT Points FROM ExamsQuestions WHERE EID = '$eid'");
+    $collect = array();
+    while($rows = mysqli_fetch_assoc($collectPoints)){
+        $fetch += $rows['Points'];
+        //array_push()
+    }
+    return $fetch;
+}
+function calculateTotalPointsForStudentExamAttempt($eid, $sid, $qid){
+    $link = connectToDatabase();
+    for($i = 0; $i < sizeof($qid); $i++){
+        $collectPoints = mysqli_query($link, "SELECT Points FROM StudentsAnswers WHERE SID = '$sid' AND EID = '$eid' AND QID = $qid[$i]");
+        $rows = mysqli_fetch_assoc($collectPoints);
+        $fetch += $rows['Points'];
+    }
+    return $fetch;
+}
+function calculateStudentsTotalExamGrade($eid, $sid, $qid){
+    $link = connectToDatabase();
+    $totalPointsPossible = calculateTotalPointsForExam($eid);
+    $studentsTotalPoints = calculateTotalPointsForStudentExamAttempt($eid, $sid, $qid);
+    $finalGrade = $studentsTotalPoints / $totalPointsPossible;
+    return $finalGrade;
+}
+
+function addInstructorCommentForExamAnswer($eid, $sid, $qid, $comment){
+    $link = connectToDatabase();
+    $insert = mysqli_query($link, "UPDATE StudentsAnswers SET Comment = '$comment' WHERE SID = '$sid' AND EID = '$eid' AND QID = '$qid'");
+}
