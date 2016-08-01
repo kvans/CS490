@@ -33,6 +33,7 @@
             text-align: center;
         }
         .button {
+            min-width: 300px;
             background-color: #4CAF50;
             border: none;
             color: white;
