@@ -68,7 +68,7 @@ foreach (getStudentAnswersRows($sid, $eid) as $answerRow) {
     echo "    <pre>$answerCode</pre>";
     echo "    <p class='points'>$studentPoints/$totalQuestionPoints</p>";
     echo "    <p>Instructor Comments</p>";
-    echo "    <textarea id='comment$qid' $qid' class='comment'></textarea>";
+    echo "    <textarea id='$qid' class='comment'></textarea>";
     echo "</div>";
     echo "<br/>";
 }
@@ -95,7 +95,29 @@ foreach (getStudentAnswersRows($sid, $eid) as $answerRow) {
     }
 
     function submitInstructorsComments() {
+        var commentBoxes = document.getElementsByClassName("comment");
+        var postObject = {
+            "eid": "<?php echo $_GET["eid"]; ?>",
+            "sid": "<?php echo $_GET["sid"]; ?>",
+            "argc": commentBoxes.length
+        };
+        for (var i = 0; i < commentBoxes.length; i++) {
+            var qid = commentBoxes[i].getAttribute("id");
+            var comment = commentBoxes[i].value;
+            postObject["qid" + i] = qid;
+            postObject["comment" + i] = comment;
+        }
+        var queryString = JSON.stringify(postObject);
+        sendPostRequest("../middle/submitInstructorComments.php", queryString, onResponse);
+    }
 
+    function onResponse(data) {
+        if (data.target.readyState === 4) {
+            var response = JSON.parse(data.target.response);
+            if (response.successful) {
+                window.location.replace("./instructorL.php")
+            }
+        }
     }
 
 </script>
