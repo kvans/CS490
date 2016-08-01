@@ -1,5 +1,4 @@
 <?php
-
 #
 # Service endpoint providing authentication of users login
 # given a username and password. Clients of this service can

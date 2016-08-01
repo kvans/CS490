@@ -1,5 +1,4 @@
 <?php
-
 #
 # Users of this service endpoint can add a new
 # question to the question bank by posting the

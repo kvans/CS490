@@ -88,10 +88,15 @@
     function onResponse(data) {
         if (data.target.readyState === 4) {
             var response = JSON.parse(data.target.response);
-            if (response.tookExam === "true") {
-                window.location.replace("viewStudentExam.php?eid=" + response.eid);
+            var queryString = createQueryParametersString({
+                eid: response.eid, sid: response.sid
+            });
+            if (response.tookExam !== "true") {
+                window.location.replace("takeExam.php?" + queryString);
+            } else if (response.isReleased !== "true") {
+                window.location.replace("examNotReleased.html");
             } else {
-                window.location.replace("takeExam.php?eid=" + response.eid);
+                window.location.replace("viewStudentExam.php?" + queryString);
             }
         }
     }
