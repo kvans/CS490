@@ -28,7 +28,7 @@
         echo "<h1 align=\"center\">Question Bank</h1><br><br>";
 
         while($row = mysqli_fetch_array($result)){
-            $QID = row['QID'];
+            $QID = $row['QID'];
             $Question = $row['Question'];
             $Input1 = $row['Input1'];
             $Input2 = $row['Input2'];
