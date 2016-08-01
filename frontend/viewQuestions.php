@@ -25,7 +25,7 @@
             echo "Failed";
         }
 
-        echo "<b><center>Database Output</center></b><br><br>";
+        echo "<h1 align=\"center\">Question Bank</h1><br><br>";
 
         while($row = mysqli_fetch_array($result)){
             $QID = row['QID'];
