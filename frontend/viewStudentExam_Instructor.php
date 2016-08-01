@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="boxedStylesheet.css"/>
 </head>
 <body>
+    <ul>
+        <li><a href="instructorL.php">Examination Nation</a></li>
+        <li><a href="">About</a></li>
+        <li style="float: right"><a href="../middle/logout.php">Logout</a></li>
+    </ul>
 
 <!--<b>Exam Results</b>-->
 
