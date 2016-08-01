@@ -2,8 +2,14 @@
 <html>
 <head>
     <title>Create Exam</title>
+    <link rel="stylesheet" type="text/css" href="boxedStylesheet.css">
 </head>
 <body>
+    <ul>
+        <li><a href="instructorL.php">Examination Nation</a></li>
+        <li><a href="">About</a></li>
+        <li style="float: right"><a href="../logout.php">Logout</a></li>
+    </ul>
 <form>
     <?php
         include "../backend/query_db.php";
