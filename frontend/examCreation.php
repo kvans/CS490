@@ -6,7 +6,7 @@
 </head>
 <body>
     <ul>
-        <li><a href="">Examination Nation</a></li>
+        <li><a href="instructorL.php">Examination Nation</a></li>
         <li><a href="">About</a></li>
         <li style="float: right"><a href="../logout.php">Logout</a></li>
     </ul>
