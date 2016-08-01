@@ -11,9 +11,9 @@
     <ul>
         <li><a href="studentL.php">Examination Nation</a></li>
         <li><a href="">About</a></li>
-        <li style="float: right"><a href="../middle/logout.php">Logout</a></li>
+        <li style="float: right"><a href="../logout.php">Logout</a></li>
     </ul>
-<b><center>Good Luck on the Exam</center></b> <br/>
+<h1 align="center">Good Luck on the Exam</h1><br/>
 
 <?php
     include "../backend/query_db.php";
@@ -25,9 +25,11 @@
         $questionTableRow = getRowFromQuestionsTable($qid);
         $Question = $questionTableRow['Question'];
         $QID = $questionTableRow['QID'];
+        $Difficulty = $questionTableRow['Difficulty'];
 
         echo "<div id='$QID' class='answerDiv'>";
         echo "    <b>$Question</b> <br/>";
+        echo "    <b>Difficulty: </b>$Difficulty<br>";
         echo "    <textarea class='answer' rows='5' cols='80'></textarea>";
         echo "</div> <br/>";
 
@@ -35,7 +37,7 @@
     }
 ?>
 
-<button id="submitButton">Submit</button>
+<button class="submitButton" id="submitButton">Submit</button>
 
 </body>
 
