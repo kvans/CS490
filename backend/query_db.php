@@ -347,3 +347,10 @@ function getInstructorCommentFromStudentsAnswers($eid, $sid, $qid){
     $getComment = $row['Comment'];
     return $getComment;
 }
+function getPointsPerQuestion($eid, $qid){
+    $link = connectToDatabase();
+    $selectPoints = mysqli_query($link, "SELECT Points FROM ExamsQuestions WHERE EID = '$eid' AND QID = '$qid'");
+    $row = mysqli_fetch_assoc($selectPoints);
+    $getPoints = $row['Points'];
+    return $getPoints;
+}
