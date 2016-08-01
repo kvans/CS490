@@ -1,3 +1,6 @@
+body {
+    background-color: #EAFAFF;
+}
 ul {
     list-style-type: none;
     margin: 0;
@@ -22,6 +25,13 @@ li a {
 li a:hover {
     background-color: #111;
 }
+h1 {
+    font-family: "Lucida Console", Monaco, monospace;
+}
+input[type=text] {
+    border: none;
+    border-bottom: 1px solid blue;
+}
 .selectExam {
     text-align: center;
 }
@@ -35,6 +45,34 @@ li a:hover {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.deleteButton {
+    border-radius: 10px;
+    min-width: 100px;
+    background-color: #437ACF;
+    border: none;
+    color: white;
+    padding: 7px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.submitButton {
+    border-radius: 10px;
+    min-width: 100px;
+    background-color: #437ACF;
+    border: none;
+    color: white;
+    padding: 7px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
     margin: 4px 2px;
     cursor: pointer;
 }
