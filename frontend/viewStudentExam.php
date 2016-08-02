@@ -54,7 +54,7 @@
 
     foreach (getStudentAnswersRows($sid, $eid) as $answerRow) {
         $qid = $answerRow["QID"];
-        $question = getQuestionTextGivenQid("qid");
+        $question = getQuestionTextGivenQid("$qid");
         $answerCode = $answerRow["AnswerCode"];
         $studentPoints = $answerRow["Points"];
         $totalPoints = getPointsPerQuestion($eid, $qid);

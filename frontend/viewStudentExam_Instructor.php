@@ -57,7 +57,7 @@ echo "<h1 id='totalPoints'>Points: $points%</h1>";
 
 foreach (getStudentAnswersRows($sid, $eid) as $answerRow) {
     $qid = $answerRow["QID"];
-    $question = getQuestionTextGivenQid("qid");
+    $question = getQuestionTextGivenQid("$qid");
     $answerCode = $answerRow["AnswerCode"];
     $studentPoints = $answerRow["Points"];
     $totalQuestionPoints = getPointsPerQuestion($eid, $qid);
