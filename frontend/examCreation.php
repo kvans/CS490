@@ -77,6 +77,7 @@
         }
         var queryString = createQueryParametersString(parametersObject);
         sendPostRequest("../middle/create_exam.php", queryString, onResponse);
+        window.location.reload();
     }
 
     function getCheckedBoxes(checkboxName) {
