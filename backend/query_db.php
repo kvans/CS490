@@ -380,3 +380,30 @@ function getAllStudentsWhoTookExam($eid){
     }
     return $listOfStudents;
 }
+function getAllEasyAnswersFromQuestions(){
+    $link = connectToDatabase();
+    $query = mysqli_query($link, "SELECT * FROM Questions WHERE Difficulty = 'easy'");
+    $allDataFromQuestions = array();
+    while($row = mysqli_fetch_assoc($query)){
+        array_push($allDataFromQuestions, $row);
+    }
+    return $allDataFromQuestions;
+}
+function getAllMediumAnswersFromQuestions(){
+    $link = connectToDatabase();
+    $query = mysqli_query($link, "SELECT * FROM Questions WHERE Difficulty = 'medium'");
+    $allDataFromQuestions = array();
+    while($row = mysqli_fetch_assoc($query)){
+        array_push($allDataFromQuestions, $row);
+    }
+    return $allDataFromQuestions;
+}
+function getAllHardAnswersFromQuestions(){
+    $link = connectToDatabase();
+    $query = mysqli_query($link, "SELECT * FROM Questions WHERE Difficulty = 'hard'");
+    $allDataFromQuestions = array();
+    while($row = mysqli_fetch_assoc($query)){
+        array_push($allDataFromQuestions, $row);
+    }
+    return $allDataFromQuestions;
+}
