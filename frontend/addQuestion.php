@@ -109,6 +109,8 @@
         var queryString = createQueryParametersString(params);
         console.log(queryString);
         sendPostRequest("../middle/add_question.php", queryString, onResponse);
+        window.location.reload();
+        
     }
 
     function getFormFieldValuesObject() {
